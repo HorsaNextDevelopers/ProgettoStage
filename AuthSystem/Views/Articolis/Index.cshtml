@@ -1,0 +1,46 @@
+﻿@model IEnumerable<AuthSystem.Models.Articoli>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Articoli</h4>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome_Articolo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descrizione)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tempo_produzione)
+            </th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Articoli</a></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome_Articolo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descrizione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tempo_produzione)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_articolo"><i class="fa fa-marker fa-lg"></i></a> |
+
+                <a asp-action="Delete" asp-route-id="@item.Id_articolo" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
