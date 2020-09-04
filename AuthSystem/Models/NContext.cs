@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AuthSystem.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthSystem.Models;
 
 namespace AuthSystem.Models
 {
@@ -15,6 +17,7 @@ namespace AuthSystem.Models
 
         public DbSet<Articoli> Articolis { get; set; }
         public DbSet<Versamenti> Versamentis { get; set; }
+        public DbSet<AuthSystem.Models.Utenti> Utenti { get; set; }
 
        
     }

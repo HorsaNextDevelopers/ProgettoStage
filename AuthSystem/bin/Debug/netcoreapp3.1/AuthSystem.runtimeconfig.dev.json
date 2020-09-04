@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\camilla.franceschini\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\camilla.franceschini\\.nuget\\packages"
+      "C:\\Users\\tudor.busuioc\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\tudor.busuioc\\.nuget\\packages"
     ]
   }
 }

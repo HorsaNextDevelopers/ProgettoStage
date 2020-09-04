@@ -21,7 +21,7 @@ namespace AuthSystem.Controllers
         // GET: Versamentis
         public async Task<IActionResult> Index()
         {
-            var nContext = _context.Versamentis.Include(v => v.Articoli);
+            var nContext = _context.Versamentis.Include(v => v.Articoli).Include(v => v.AspNetUsers);
             return View(await nContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace AuthSystem.Controllers
 
             var versamenti = await _context.Versamentis
                 .Include(v => v.Articoli)
+                .Include(v => v.AspNetUsers)
                 .FirstOrDefaultAsync(m => m.Id_versamento == id);
             if (versamenti == null)
             {
@@ -47,7 +48,8 @@ namespace AuthSystem.Controllers
         // GET: Versamentis/Create
         public IActionResult Create()
         {
-            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Nome_Articolo");
+            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Descrizione");
+            ViewData["Email"] = new SelectList(_context.Set<Utenti>(), "Id", "Id");
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_versamento,Numero_pezzi,Data,Tempo_prod,Id_articolo")] Versamenti versamenti)
+        public async Task<IActionResult> Create([Bind("Id_versamento,Numero_pezzi,Data,Tempo_prod,Id_articolo,Email")] Versamenti versamenti)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +66,8 @@ namespace AuthSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Nome_Articolo", versamenti.Id_articolo);
+            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Descrizione", versamenti.Id_articolo);
+            ViewData["Email"] = new SelectList(_context.Set<Utenti>(), "Id", "Id", versamenti.Email);
             return View(versamenti);
         }
 
@@ -81,7 +84,8 @@ namespace AuthSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Nome_Articolo", versamenti.Id_articolo);
+            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Descrizione", versamenti.Id_articolo);
+            ViewData["Email"] = new SelectList(_context.Set<Utenti>(), "Id", "Id", versamenti.Email);
             return View(versamenti);
         }
 
@@ -90,7 +94,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_versamento,Numero_pezzi,Data,Tempo_prod,Id_articolo")] Versamenti versamenti)
+        public async Task<IActionResult> Edit(int id, [Bind("Id_versamento,Numero_pezzi,Data,Tempo_prod,Id_articolo,Email")] Versamenti versamenti)
         {
             if (id != versamenti.Id_versamento)
             {
@@ -117,7 +121,8 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Nome_Articolo", versamenti.Id_articolo);
+            ViewData["Id_articolo"] = new SelectList(_context.Articolis, "Id_articolo", "Descrizione", versamenti.Id_articolo);
+            ViewData["Email"] = new SelectList(_context.Set<Utenti>(), "Id", "Id", versamenti.Email);
             return View(versamenti);
         }
 
@@ -131,6 +136,7 @@ namespace AuthSystem.Controllers
 
             var versamenti = await _context.Versamentis
                 .Include(v => v.Articoli)
+                .Include(v => v.AspNetUsers)
                 .FirstOrDefaultAsync(m => m.Id_versamento == id);
             if (versamenti == null)
             {

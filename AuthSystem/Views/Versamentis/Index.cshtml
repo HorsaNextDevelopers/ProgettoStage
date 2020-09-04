@@ -5,9 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Versamenti</h4>
+<h1>Index</h1>
 
-
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -23,7 +25,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Articoli)
             </th>
-            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Versamenti</a></th>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUsers)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,14 +44,16 @@
                 @Html.DisplayFor(modelItem => item.Tempo_prod)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Articoli.Nome_Articolo)
+                @Html.DisplayFor(modelItem => item.Articoli.Descrizione)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id_versamento"><i class="fa fa-marker fa-lg"></i></a> |
-
-                <a asp-action="Delete" asp-route-id="@item.Id_versamento" class="text-danger ml-1" ><i class="fa fa-trash-alt fa-lg"></i></a>
+                @Html.DisplayFor(modelItem => item.AspNetUsers.Id)
             </td>
-          
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_versamento">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id_versamento">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id_versamento">Delete</a>
+            </td>
         </tr>
 }
     </tbody>

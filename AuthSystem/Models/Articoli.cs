@@ -14,16 +14,18 @@ namespace AuthSystem.Models
         public int Id_articolo { get; set; }
         
         [Column(TypeName = "nvarchar(250)")]
-        [Required(ErrorMessage = "L'identificazione è obbligatoria")]
+        [Required(ErrorMessage = "Immettere il nome dell'articolo")]
         [DisplayName("Nome articolo")]
         public string Nome_Articolo { get; set; }
         
         [Column(TypeName = "nvarchar(250)")]
+        [Required(ErrorMessage = "Immettere la descrizione dell'articolo")]
         [DisplayName("Descrizione articolo")]
         public string Descrizione { get; set; }
         
         [Column(TypeName = "numeric")]
         [DisplayName("Tempo produzione (Singolo articolo)")]
+        [Required(ErrorMessage = "Immettere il tempo di produzione del singolo articolo")]
         public float Tempo_produzione { get; set; }
 
         public ICollection<Versamenti> Versamentis { get; set; }
