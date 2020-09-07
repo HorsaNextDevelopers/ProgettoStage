@@ -9279,11 +9279,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante - Copia\\AuthSystem\\AuthSystem.csproj",
+      "projectUniqueName": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante _Id\\AuthSystem\\AuthSystem.csproj",
       "projectName": "AuthSystem",
-      "projectPath": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante - Copia\\AuthSystem\\AuthSystem.csproj",
+      "projectPath": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante _Id\\AuthSystem\\AuthSystem.csproj",
       "packagesPath": "C:\\Users\\tudor.busuioc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante - Copia\\AuthSystem\\obj\\",
+      "outputPath": "C:\\Users\\tudor.busuioc\\Desktop\\Progetto_funzionante _Id\\AuthSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tudor.busuioc\\AppData\\Roaming\\NuGet\\NuGet.Config",

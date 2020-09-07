@@ -39,7 +39,7 @@ namespace AuthSystem.Models
 
         public string Email { get; set; }
         [ForeignKey("Email")]
-        [DisplayName("Email")]
+        [DisplayName("Identificazione")]
         public Utenti AspNetUsers { get; set; }
 
 
