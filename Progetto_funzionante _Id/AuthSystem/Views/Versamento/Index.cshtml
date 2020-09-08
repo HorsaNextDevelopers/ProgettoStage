@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AuthSystem.Models.Versamento>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1><center>Versamenti</center></h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroPezzi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TempoProd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Articoli)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUsers)
+            </th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Versamenti</a></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroPezzi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TempoProd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Articoli.Descrizione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdVersamento"><i class="fa fa-marker fa-lg"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.IdVersamento" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
