@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthSystem.Areas.Identity.Data;
 using AuthSystem.Data;
 using AuthSystem.Models;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace AuthSystem
 {
-    public class Startup
+    public class Startup : IHostingStartup
     {
         public Startup(IConfiguration configuration)
         {
@@ -62,6 +63,25 @@ namespace AuthSystem
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+            });
+        }
+
+        public void Configure(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices((context, services) => {
+                services.AddDbContext<NContext>(options =>
+                    options.UseSqlServer(
+                        context.Configuration.GetConnectionString("AuthDBContextConnection")));
+
+                services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    // default almeno 6 caratteri, simbolo speciale, numeri e lettere maiuscole
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+
+                })
+                    .AddEntityFrameworkStores<NContext>();
             });
         }
     }
