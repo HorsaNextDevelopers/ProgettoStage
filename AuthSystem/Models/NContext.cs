@@ -11,6 +11,7 @@ namespace AuthSystem.Models
 {
     public class NContext : IdentityDbContext<ApplicationUser>
     {
+
         public NContext(DbContextOptions<NContext>options):base (options)
         {
 
@@ -31,7 +32,7 @@ namespace AuthSystem.Models
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
-
-
+      
+       
     }
 }

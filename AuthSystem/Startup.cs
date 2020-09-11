@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthSystem.Areas.Identity.Data;
-using AuthSystem.Data;
 using AuthSystem.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace AuthSystem
 {
-    public class Startup : IHostingStartup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -29,10 +29,26 @@ namespace AuthSystem
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Administrator"));
+            });
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddDbContext<NContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("AuthDBContextConnection")));
 
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                // default almeno 6 caratteri, simbolo speciale, numeri e lettere maiuscole
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
 
+            })
+                 .AddRoles<IdentityRole>().AddEntityFrameworkStores<NContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,25 +79,6 @@ namespace AuthSystem
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            });
-        }
-
-        public void Configure(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices((context, services) => {
-                services.AddDbContext<NContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("AuthDBContextConnection")));
-
-                services.AddDefaultIdentity<ApplicationUser>(options =>
-                {
-                    // default almeno 6 caratteri, simbolo speciale, numeri e lettere maiuscole
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-
-                })
-                    .AddEntityFrameworkStores<NContext>();
             });
         }
     }

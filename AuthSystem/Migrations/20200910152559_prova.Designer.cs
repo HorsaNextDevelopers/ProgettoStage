@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20200909081117_prova")]
+    [Migration("20200910152559_prova")]
     partial class prova
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
