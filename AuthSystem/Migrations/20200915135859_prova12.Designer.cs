@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20200910152559_prova")]
-    partial class prova
+    [Migration("20200915135859_prova12")]
+    partial class prova12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -115,6 +115,69 @@ namespace AuthSystem.Migrations
                     b.ToTable("Articoli");
                 });
 
+            modelBuilder.Entity("AuthSystem.Models.ComponenteArticolo", b =>
+                {
+                    b.Property<int>("IdComponente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdArticolo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeComponente")
+                        .IsRequired()
+                        .HasColumnType("nchar(250)");
+
+                    b.HasKey("IdComponente");
+
+                    b.HasIndex("IdArticolo");
+
+                    b.ToTable("ComponentiArticolo");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Linea", b =>
+                {
+                    b.Property<int>("IdLinea")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdArticolo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeLinea")
+                        .IsRequired()
+                        .HasColumnType("nchar(250)");
+
+                    b.HasKey("IdLinea");
+
+                    b.HasIndex("IdArticolo");
+
+                    b.ToTable("Linee");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Stazione", b =>
+                {
+                    b.Property<int>("IdNomeStazione")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdLinea")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeStazione")
+                        .IsRequired()
+                        .HasColumnType("nchar(250)");
+
+                    b.HasKey("IdNomeStazione");
+
+                    b.HasIndex("IdLinea");
+
+                    b.ToTable("Stazion");
+                });
+
             modelBuilder.Entity("AuthSystem.Models.Versamento", b =>
                 {
                     b.Property<int>("IdVersamento")
@@ -122,17 +185,27 @@ namespace AuthSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ArticoloIdArticolo")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("IdArticolo")
-                        .HasColumnType("int");
 
                     b.Property<string>("IdAspNetUsers")
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
-                    b.Property<string>("NumeroPezzi")
+                    b.Property<int>("IdComponente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdNomeStazione")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PezziBuoni")
+                        .IsRequired()
+                        .HasColumnType("nchar(250)");
+
+                    b.Property<string>("PezziDifettosi")
                         .IsRequired()
                         .HasColumnType("nchar(250)");
 
@@ -141,9 +214,13 @@ namespace AuthSystem.Migrations
 
                     b.HasKey("IdVersamento");
 
-                    b.HasIndex("IdArticolo");
+                    b.HasIndex("ArticoloIdArticolo");
 
                     b.HasIndex("IdAspNetUsers");
+
+                    b.HasIndex("IdComponente");
+
+                    b.HasIndex("IdNomeStazione");
 
                     b.ToTable("Versamenti");
                 });
@@ -283,17 +360,54 @@ namespace AuthSystem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AuthSystem.Models.Versamento", b =>
+            modelBuilder.Entity("AuthSystem.Models.ComponenteArticolo", b =>
                 {
                     b.HasOne("AuthSystem.Models.Articolo", "Articoli")
-                        .WithMany("Versamenti")
+                        .WithMany()
                         .HasForeignKey("IdArticolo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Linea", b =>
+                {
+                    b.HasOne("AuthSystem.Models.Articolo", "Articoli")
+                        .WithMany()
+                        .HasForeignKey("IdArticolo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Stazione", b =>
+                {
+                    b.HasOne("AuthSystem.Models.Linea", "Linee")
+                        .WithMany()
+                        .HasForeignKey("IdLinea")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Versamento", b =>
+                {
+                    b.HasOne("AuthSystem.Models.Articolo", null)
+                        .WithMany("Versamenti")
+                        .HasForeignKey("ArticoloIdArticolo");
 
                     b.HasOne("AuthSystem.Areas.Identity.Data.ApplicationUser", "AspNetUsers")
                         .WithMany()
                         .HasForeignKey("IdAspNetUsers");
+
+                    b.HasOne("AuthSystem.Models.ComponenteArticolo", "ComponentiArticolo")
+                        .WithMany()
+                        .HasForeignKey("IdComponente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AuthSystem.Models.Stazione", "Stazioni")
+                        .WithMany()
+                        .HasForeignKey("IdNomeStazione")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

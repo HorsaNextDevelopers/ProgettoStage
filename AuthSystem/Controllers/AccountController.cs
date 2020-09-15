@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace AuthSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   //[Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly NContext _context;
@@ -48,13 +48,15 @@ namespace AuthSystem.Controllers
         public async Task<IActionResult> Register(RegisterViewModel viewModel, string returnUrl)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser { UserName = viewModel.Email, Email = viewModel.Email, FirstName = viewModel.FirstName, LastName = viewModel.LastName};
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
+                    var result2 = await _userManager.AddToRoleAsync(user, "Normal");
+                    
                     _logger.LogInformation("User created a new account with password.");
 
                   var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -68,15 +70,16 @@ namespace AuthSystem.Controllers
                     await _emailSender.SendEmailAsync(viewModel.Email, "Confirm your email",
                      $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = viewModel.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    /* if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                     {
+                         return RedirectToPage("RegisterConfirmation", new { email = viewModel.Email, returnUrl = returnUrl });
+                     }
+                     else
+                     {
+                         await _signInManager.SignInAsync(user, isPersistent: false);
+                         return LocalRedirect(returnUrl);
+                     }*/
+                    ViewBag.OpSuccess = true;
                 }
                 foreach (var error in result.Errors)
                 {

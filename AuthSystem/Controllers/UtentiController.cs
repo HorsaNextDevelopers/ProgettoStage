@@ -86,7 +86,7 @@ namespace AuthSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ApplicationUser utente)
         {
-            ApplicationUser user = new ApplicationUser { UserName = utente.Email, Email = utente.Email, FirstName = utente.FirstName, LastName = utente.LastName };
+            
             if (id != utente.Id)
             {
                 return NotFound();
@@ -96,7 +96,11 @@ namespace AuthSystem.Controllers
             {
                 try
                 {
-                    _context.Update(utente);
+                   var aspnetusers =  _context.AspNetUsers.Single(u => u.Id.Equals(id));
+                    aspnetusers.FirstName = utente.FirstName;
+                    aspnetusers.LastName = utente.LastName;
+                    aspnetusers.Email = utente.Email;
+                    _context.Update(aspnetusers);
                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

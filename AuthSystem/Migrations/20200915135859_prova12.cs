@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthSystem.Migrations
 {
-    public partial class prova : Migration
+    public partial class prova12 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,6 +61,46 @@ namespace AuthSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ComponentiArticolo",
+                columns: table => new
+                {
+                    IdComponente = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeComponente = table.Column<string>(type: "nchar(250)", nullable: false),
+                    IdArticolo = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ComponentiArticolo", x => x.IdComponente);
+                    table.ForeignKey(
+                        name: "FK_ComponentiArticolo_Articoli_IdArticolo",
+                        column: x => x.IdArticolo,
+                        principalTable: "Articoli",
+                        principalColumn: "IdArticolo",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Linee",
+                columns: table => new
+                {
+                    IdLinea = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeLinea = table.Column<string>(type: "nchar(250)", nullable: false),
+                    IdArticolo = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Linee", x => x.IdLinea);
+                    table.ForeignKey(
+                        name: "FK_Linee_Articoli_IdArticolo",
+                        column: x => x.IdArticolo,
+                        principalTable: "Articoli",
+                        principalColumn: "IdArticolo",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,32 +210,67 @@ namespace AuthSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Stazion",
+                columns: table => new
+                {
+                    IdNomeStazione = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeStazione = table.Column<string>(type: "nchar(250)", nullable: false),
+                    IdLinea = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stazion", x => x.IdNomeStazione);
+                    table.ForeignKey(
+                        name: "FK_Stazion_Linee_IdLinea",
+                        column: x => x.IdLinea,
+                        principalTable: "Linee",
+                        principalColumn: "IdLinea",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Versamenti",
                 columns: table => new
                 {
                     IdVersamento = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NumeroPezzi = table.Column<string>(type: "nchar(250)", nullable: false),
+                    PezziBuoni = table.Column<string>(type: "nchar(250)", nullable: false),
+                    PezziDifettosi = table.Column<string>(type: "nchar(250)", nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     TempoProd = table.Column<decimal>(type: "numeric", nullable: false),
-                    IdArticolo = table.Column<int>(nullable: false),
-                    IdAspNetUsers = table.Column<string>(maxLength: 450, nullable: true)
+                    IdComponente = table.Column<int>(nullable: false),
+                    IdNomeStazione = table.Column<int>(nullable: false),
+                    IdAspNetUsers = table.Column<string>(maxLength: 450, nullable: true),
+                    ArticoloIdArticolo = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Versamenti", x => x.IdVersamento);
                     table.ForeignKey(
-                        name: "FK_Versamenti_Articoli_IdArticolo",
-                        column: x => x.IdArticolo,
+                        name: "FK_Versamenti_Articoli_ArticoloIdArticolo",
+                        column: x => x.ArticoloIdArticolo,
                         principalTable: "Articoli",
                         principalColumn: "IdArticolo",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Versamenti_AspNetUsers_IdAspNetUsers",
                         column: x => x.IdAspNetUsers,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Versamenti_ComponentiArticolo_IdComponente",
+                        column: x => x.IdComponente,
+                        principalTable: "ComponentiArticolo",
+                        principalColumn: "IdComponente",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Versamenti_Stazion_IdNomeStazione",
+                        column: x => x.IdNomeStazione,
+                        principalTable: "Stazion",
+                        principalColumn: "IdNomeStazione",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -238,14 +313,39 @@ namespace AuthSystem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Versamenti_IdArticolo",
-                table: "Versamenti",
+                name: "IX_ComponentiArticolo_IdArticolo",
+                table: "ComponentiArticolo",
                 column: "IdArticolo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Linee_IdArticolo",
+                table: "Linee",
+                column: "IdArticolo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stazion_IdLinea",
+                table: "Stazion",
+                column: "IdLinea");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Versamenti_ArticoloIdArticolo",
+                table: "Versamenti",
+                column: "ArticoloIdArticolo");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Versamenti_IdAspNetUsers",
                 table: "Versamenti",
                 column: "IdAspNetUsers");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Versamenti_IdComponente",
+                table: "Versamenti",
+                column: "IdComponente");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Versamenti_IdNomeStazione",
+                table: "Versamenti",
+                column: "IdNomeStazione");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -272,10 +372,19 @@ namespace AuthSystem.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Articoli");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "ComponentiArticolo");
+
+            migrationBuilder.DropTable(
+                name: "Stazion");
+
+            migrationBuilder.DropTable(
+                name: "Linee");
+
+            migrationBuilder.DropTable(
+                name: "Articoli");
         }
     }
 }
