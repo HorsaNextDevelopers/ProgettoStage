@@ -21,7 +21,7 @@ namespace AuthSystem.Controllers
         // GET: Versamento
         public async Task<IActionResult> Index()
         {
-            var nContext = _context.Versamenti.Include(v => v.Articoli).Include(v => v.AspNetUsers);
+            var nContext = _context.Versamenti.Include(v => v.AspNetUsers).Include(v => v.ComponentiArticolo).Include(v => v.Stazioni);
             return View(await nContext.ToListAsync());
         }
 
@@ -34,8 +34,9 @@ namespace AuthSystem.Controllers
             }
 
             var versamento = await _context.Versamenti
-                .Include(v => v.Articoli)
                 .Include(v => v.AspNetUsers)
+                .Include(v => v.ComponentiArticolo)
+                .Include(v => v.Stazioni)
                 .FirstOrDefaultAsync(m => m.IdVersamento == id);
             if (versamento == null)
             {
@@ -48,8 +49,9 @@ namespace AuthSystem.Controllers
         // GET: Versamento/Create
         public IActionResult Create()
         {
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "Descrizione");
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email");
+            ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente");
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione");
             return View();
         }
 
@@ -58,7 +60,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVersamento,NumeroPezzi,Data,TempoProd,IdArticolo,IdAspNetUsers")] Versamento versamento)
+        public async Task<IActionResult> Create([Bind("IdVersamento,PezziBuoni,PezziDifettosi,Data,TempoProd,IdComponente,IdNomeStazione,IdAspNetUsers")] Versamento versamento)
         {
             if (ModelState.IsValid)
             {
@@ -66,8 +68,9 @@ namespace AuthSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "Descrizione", versamento.IdArticolo);
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
+            ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 
@@ -84,8 +87,9 @@ namespace AuthSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "Descrizione", versamento.IdArticolo);
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
+            ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 
@@ -94,7 +98,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdVersamento,NumeroPezzi,Data,TempoProd,IdArticolo,IdAspNetUsers")] Versamento versamento)
+        public async Task<IActionResult> Edit(int id, [Bind("IdVersamento,PezziBuoni,PezziDifettosi,Data,TempoProd,IdComponente,IdNomeStazione,IdAspNetUsers")] Versamento versamento)
         {
             if (id != versamento.IdVersamento)
             {
@@ -121,8 +125,9 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "Descrizione", versamento.IdArticolo);
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
+            ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 
@@ -135,8 +140,9 @@ namespace AuthSystem.Controllers
             }
 
             var versamento = await _context.Versamenti
-                .Include(v => v.Articoli)
                 .Include(v => v.AspNetUsers)
+                .Include(v => v.ComponentiArticolo)
+                .Include(v => v.Stazioni)
                 .FirstOrDefaultAsync(m => m.IdVersamento == id);
             if (versamento == null)
             {

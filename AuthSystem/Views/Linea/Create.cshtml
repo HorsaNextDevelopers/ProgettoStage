@@ -1,0 +1,34 @@
+﻿@model AuthSystem.Models.Linea
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Linea</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomeLinea" class="control-label"></label>
+                <input asp-for="NomeLinea" class="form-control" />
+                <span asp-validation-for="NomeLinea" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdArticolo" class="control-label"></label>
+                <select asp-for="IdArticolo" class="form-control" asp-items="ViewBag.IdArticolo"></select>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="submit" value="Salva" class="btn btn-primary btn-block" />
+                </div>
+                <div class="form-group col-md-6">
+                    <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fa fa-table"></i>Torna alla lista</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

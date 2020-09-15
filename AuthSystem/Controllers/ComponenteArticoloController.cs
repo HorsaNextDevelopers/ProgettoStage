@@ -6,27 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AuthSystem.Controllers
 {
-    [Authorize]
-    public class ArticoloController : Controller
+    public class ComponenteArticoloController : Controller
     {
         private readonly NContext _context;
 
-        public ArticoloController(NContext context)
+        public ComponenteArticoloController(NContext context)
         {
             _context = context;
         }
 
-        // GET: Articolo
+        // GET: ComponenteArticolo
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Articoli.ToListAsync());
+            var nContext = _context.ComponentiArticolo.Include(c => c.Articoli);
+            return View(await nContext.ToListAsync());
         }
 
-        // GET: Articolo/Details/5
+        // GET: ComponenteArticolo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,42 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli
-                .FirstOrDefaultAsync(m => m.IdArticolo == id);
-            if (articolo == null)
+            var componenteArticolo = await _context.ComponentiArticolo
+                .Include(c => c.Articoli)
+                .FirstOrDefaultAsync(m => m.IdComponente == id);
+            if (componenteArticolo == null)
             {
                 return NotFound();
             }
 
-            return View(articolo);
+            return View(componenteArticolo);
         }
 
-        // GET: Articolo/Create
+        // GET: ComponenteArticolo/Create
         public IActionResult Create()
         {
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo");
             return View();
         }
 
-        // POST: Articolo/Create
+        // POST: ComponenteArticolo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Create([Bind("IdComponente,NomeComponente,IdArticolo")] ComponenteArticolo componenteArticolo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(articolo);
+                _context.Add(componenteArticolo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", componenteArticolo.IdArticolo);
+            return View(componenteArticolo);
         }
 
-        // GET: Articolo/Edit/5
+        // GET: ComponenteArticolo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +76,23 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli.FindAsync(id);
-            if (articolo == null)
+            var componenteArticolo = await _context.ComponentiArticolo.FindAsync(id);
+            if (componenteArticolo == null)
             {
                 return NotFound();
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", componenteArticolo.IdArticolo);
+            return View(componenteArticolo);
         }
 
-        // POST: Articolo/Edit/5
+        // POST: ComponenteArticolo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Edit(int id, [Bind("IdComponente,NomeComponente,IdArticolo")] ComponenteArticolo componenteArticolo)
         {
-            if (id != articolo.IdArticolo)
+            if (id != componenteArticolo.IdComponente)
             {
                 return NotFound();
             }
@@ -98,12 +101,12 @@ namespace AuthSystem.Controllers
             {
                 try
                 {
-                    _context.Update(articolo);
+                    _context.Update(componenteArticolo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArticoloExists(articolo.IdArticolo))
+                    if (!ComponenteArticoloExists(componenteArticolo.IdComponente))
                     {
                         return NotFound();
                     }
@@ -114,10 +117,11 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", componenteArticolo.IdArticolo);
+            return View(componenteArticolo);
         }
 
-        // GET: Articolo/Delete/5
+        // GET: ComponenteArticolo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +129,31 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli
-                .FirstOrDefaultAsync(m => m.IdArticolo == id);
-            if (articolo == null)
+            var componenteArticolo = await _context.ComponentiArticolo
+                .Include(c => c.Articoli)
+                .FirstOrDefaultAsync(m => m.IdComponente == id);
+            if (componenteArticolo == null)
             {
                 return NotFound();
             }
 
-            return View(articolo);
+            return View(componenteArticolo);
         }
 
-        // POST: Articolo/Delete/5
+        // POST: ComponenteArticolo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var articolo = await _context.Articoli.FindAsync(id);
-            _context.Articoli.Remove(articolo);
+            var componenteArticolo = await _context.ComponentiArticolo.FindAsync(id);
+            _context.ComponentiArticolo.Remove(componenteArticolo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArticoloExists(int id)
+        private bool ComponenteArticoloExists(int id)
         {
-            return _context.Articoli.Any(e => e.IdArticolo == id);
+            return _context.ComponentiArticolo.Any(e => e.IdComponente == id);
         }
     }
 }

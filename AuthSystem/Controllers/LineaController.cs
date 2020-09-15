@@ -6,27 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AuthSystem.Controllers
 {
-    [Authorize]
-    public class ArticoloController : Controller
+    public class LineaController : Controller
     {
         private readonly NContext _context;
 
-        public ArticoloController(NContext context)
+        public LineaController(NContext context)
         {
             _context = context;
         }
 
-        // GET: Articolo
+        // GET: Linea
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Articoli.ToListAsync());
+            var nContext = _context.Linee.Include(l => l.Articoli);
+            return View(await nContext.ToListAsync());
         }
 
-        // GET: Articolo/Details/5
+        // GET: Linea/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,42 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli
-                .FirstOrDefaultAsync(m => m.IdArticolo == id);
-            if (articolo == null)
+            var linea = await _context.Linee
+                .Include(l => l.Articoli)
+                .FirstOrDefaultAsync(m => m.IdLinea == id);
+            if (linea == null)
             {
                 return NotFound();
             }
 
-            return View(articolo);
+            return View(linea);
         }
 
-        // GET: Articolo/Create
+        // GET: Linea/Create
         public IActionResult Create()
         {
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo");
             return View();
         }
 
-        // POST: Articolo/Create
+        // POST: Linea/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Create([Bind("IdLinea,NomeLinea,IdArticolo")] Linea linea)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(articolo);
+                _context.Add(linea);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
+            return View(linea);
         }
 
-        // GET: Articolo/Edit/5
+        // GET: Linea/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +76,23 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli.FindAsync(id);
-            if (articolo == null)
+            var linea = await _context.Linee.FindAsync(id);
+            if (linea == null)
             {
                 return NotFound();
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
+            return View(linea);
         }
 
-        // POST: Articolo/Edit/5
+        // POST: Linea/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Edit(int id, [Bind("IdLinea,NomeLinea,IdArticolo")] Linea linea)
         {
-            if (id != articolo.IdArticolo)
+            if (id != linea.IdLinea)
             {
                 return NotFound();
             }
@@ -98,12 +101,12 @@ namespace AuthSystem.Controllers
             {
                 try
                 {
-                    _context.Update(articolo);
+                    _context.Update(linea);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArticoloExists(articolo.IdArticolo))
+                    if (!LineaExists(linea.IdLinea))
                     {
                         return NotFound();
                     }
@@ -114,10 +117,11 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
+            return View(linea);
         }
 
-        // GET: Articolo/Delete/5
+        // GET: Linea/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +129,31 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var articolo = await _context.Articoli
-                .FirstOrDefaultAsync(m => m.IdArticolo == id);
-            if (articolo == null)
+            var linea = await _context.Linee
+                .Include(l => l.Articoli)
+                .FirstOrDefaultAsync(m => m.IdLinea == id);
+            if (linea == null)
             {
                 return NotFound();
             }
 
-            return View(articolo);
+            return View(linea);
         }
 
-        // POST: Articolo/Delete/5
+        // POST: Linea/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var articolo = await _context.Articoli.FindAsync(id);
-            _context.Articoli.Remove(articolo);
+            var linea = await _context.Linee.FindAsync(id);
+            _context.Linee.Remove(linea);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArticoloExists(int id)
+        private bool LineaExists(int id)
         {
-            return _context.Articoli.Any(e => e.IdArticolo == id);
+            return _context.Linee.Any(e => e.IdLinea == id);
         }
     }
 }

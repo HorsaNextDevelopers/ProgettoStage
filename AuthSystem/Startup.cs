@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthSystem.Data;
+using AuthSystem.Areas.Identity.Data;
 using AuthSystem.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,10 +29,26 @@ namespace AuthSystem
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Administrator"));
+            });
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddDbContext<NContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("AuthDBContextConnection")));
 
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                // default almeno 6 caratteri, simbolo speciale, numeri e lettere maiuscole
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
 
+            })
+                 .AddRoles<IdentityRole>().AddEntityFrameworkStores<NContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
