@@ -1,15 +1,16 @@
 ﻿
 @model AuthSystem.ViewModel.RegisterViewModel
 
-@{ ViewData["Title"] = "Register"; }
+@{ ViewData["Title"] = "Registrazione"; }
 
 @{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+<h1>Registrazione utente</h1>
 
 @if (ViewBag.OpSuccess != null && ViewBag.OpSuccess)
 {
     <div>
-        Utente create con successo!
+        Utente creata con successo!
     </div>
 }
 else

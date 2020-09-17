@@ -33,7 +33,7 @@ namespace AuthSystem.Models
         public DateTime Data { get; set; }
 
         [Column(TypeName = "numeric")]
-        [DisplayName("Tempo di produzione (Minuti)")]
+        [DisplayName("Tempo produzione (Minuti)")]
         [Required(ErrorMessage = "Immettere il tempo di produzione di tutti gli articoli")]
         public float TempoProd { get; set; }
 

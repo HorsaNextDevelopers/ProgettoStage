@@ -1,34 +1,33 @@
 ﻿@model AuthSystem.Models.Articolo
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Elimina articolo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<h1>Elimina</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Sei sicuro di voler eliminare quest'articolo?</h3>
 <div>
-    <h4>Articolo</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NomeArticolo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NomeArticolo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Descrizione)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descrizione)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdArticolo" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Elimina" class="btn btn-danger" /> |
+        <a asp-action="Index">Torna alla lista</a>
     </form>
 </div>

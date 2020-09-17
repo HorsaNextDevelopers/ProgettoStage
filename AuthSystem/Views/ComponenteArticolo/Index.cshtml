@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<AuthSystem.Models.ComponenteArticolo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Componente articolo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Componente articolo</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crea nuova componente</a>
 </p>
 <table class="table">
     <thead>
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Articoli.NomeArticolo)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdComponente">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdComponente">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdComponente">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdComponente"><i class="fa fa-marker fa-lg"></i></a> |
+
+                <a asp-action="Delete" asp-route-id="@item.IdComponente" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
             </td>
         </tr>
 }
