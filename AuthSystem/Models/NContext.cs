@@ -23,7 +23,7 @@ namespace AuthSystem.Models
         public DbSet<ApplicationUser> AspNetUsers { get; set; }
         public DbSet<ComponenteArticolo> ComponentiArticolo { get; set; }
         public DbSet<Linea> Linee { get; set; }
-        public DbSet<Stazione> Stazion { get; set; }
+        public DbSet<Stazione> Stazioni { get; set; }
 
 
 

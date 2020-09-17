@@ -21,8 +21,7 @@ namespace AuthSystem.Controllers
         // GET: Linea
         public async Task<IActionResult> Index()
         {
-            var nContext = _context.Linee.Include(l => l.Articoli);
-            return View(await nContext.ToListAsync());
+            return View(await _context.Linee.ToListAsync());
         }
 
         // GET: Linea/Details/5
@@ -34,7 +33,6 @@ namespace AuthSystem.Controllers
             }
 
             var linea = await _context.Linee
-                .Include(l => l.Articoli)
                 .FirstOrDefaultAsync(m => m.IdLinea == id);
             if (linea == null)
             {
@@ -47,7 +45,6 @@ namespace AuthSystem.Controllers
         // GET: Linea/Create
         public IActionResult Create()
         {
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo");
             return View();
         }
 
@@ -56,7 +53,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdLinea,NomeLinea,IdArticolo")] Linea linea)
+        public async Task<IActionResult> Create([Bind("IdLinea,NomeLinea")] Linea linea)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +61,6 @@ namespace AuthSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
             return View(linea);
         }
 
@@ -81,7 +77,6 @@ namespace AuthSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
             return View(linea);
         }
 
@@ -90,7 +85,7 @@ namespace AuthSystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdLinea,NomeLinea,IdArticolo")] Linea linea)
+        public async Task<IActionResult> Edit(int id, [Bind("IdLinea,NomeLinea")] Linea linea)
         {
             if (id != linea.IdLinea)
             {
@@ -117,7 +112,6 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArticolo"] = new SelectList(_context.Articoli, "IdArticolo", "NomeArticolo", linea.IdArticolo);
             return View(linea);
         }
 
@@ -130,7 +124,6 @@ namespace AuthSystem.Controllers
             }
 
             var linea = await _context.Linee
-                .Include(l => l.Articoli)
                 .FirstOrDefaultAsync(m => m.IdLinea == id);
             if (linea == null)
             {

@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                @*@if (this.User.Identity.IsAuthenticated)*@
+                @if (this.User.Identity.IsAuthenticated)
                 {
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
@@ -31,7 +31,7 @@
                             <a class="nav-link dropdown-item text-dark" asp-area="" asp-controller="Versamento" asp-action="Index">Versamenti</a>
                         </li>
 
-                        @* @if (this.User.IsInRole("Admin"))*@
+                        @if (this.User.IsInRole("Admin"))
                         {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Utenti" asp-action="Index">Lista utenti</a>

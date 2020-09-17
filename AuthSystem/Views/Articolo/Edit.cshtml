@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Sei sicuro di voler modificare questo articolo?</h4>
+<h1>Edit</h1>
+
+<h4>Articolo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,22 +25,15 @@
                 <span asp-validation-for="Descrizione" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TempoProduzione" class="control-label"></label>
-                <input asp-for="TempoProduzione" class="form-control" />
-                <span asp-validation-for="TempoProduzione" class="text-danger"></span>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <input type="submit" value="Salva" class="btn btn-primary btn-block" />
-                </div>
-                <div class="form-group col-md-6">
-                    <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fa fa-table"></i>Torna alla lista</a>
-                </div>
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

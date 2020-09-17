@@ -105,9 +105,6 @@ namespace AuthSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<decimal>("TempoProduzione")
-                        .HasColumnType("numeric");
-
                     b.HasKey("IdArticolo");
 
                     b.ToTable("Articoli");
@@ -127,6 +124,9 @@ namespace AuthSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nchar(250)");
 
+                    b.Property<decimal>("TempoProduzione")
+                        .HasColumnType("numeric");
+
                     b.HasKey("IdComponente");
 
                     b.HasIndex("IdArticolo");
@@ -141,16 +141,11 @@ namespace AuthSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IdArticolo")
-                        .HasColumnType("int");
-
                     b.Property<string>("NomeLinea")
                         .IsRequired()
                         .HasColumnType("nchar(250)");
 
                     b.HasKey("IdLinea");
-
-                    b.HasIndex("IdArticolo");
 
                     b.ToTable("Linee");
                 });
@@ -162,6 +157,9 @@ namespace AuthSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ComponentiArticoloIdComponente")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdLinea")
                         .HasColumnType("int");
 
@@ -171,9 +169,11 @@ namespace AuthSystem.Migrations
 
                     b.HasKey("IdNomeStazione");
 
+                    b.HasIndex("ComponentiArticoloIdComponente");
+
                     b.HasIndex("IdLinea");
 
-                    b.ToTable("Stazion");
+                    b.ToTable("Stazioni");
                 });
 
             modelBuilder.Entity("AuthSystem.Models.Versamento", b =>
@@ -182,9 +182,6 @@ namespace AuthSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArticoloIdArticolo")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
@@ -211,8 +208,6 @@ namespace AuthSystem.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("IdVersamento");
-
-                    b.HasIndex("ArticoloIdArticolo");
 
                     b.HasIndex("IdAspNetUsers");
 
@@ -361,16 +356,7 @@ namespace AuthSystem.Migrations
             modelBuilder.Entity("AuthSystem.Models.ComponenteArticolo", b =>
                 {
                     b.HasOne("AuthSystem.Models.Articolo", "Articoli")
-                        .WithMany()
-                        .HasForeignKey("IdArticolo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuthSystem.Models.Linea", b =>
-                {
-                    b.HasOne("AuthSystem.Models.Articolo", "Articoli")
-                        .WithMany()
+                        .WithMany("ComponentiArticolo")
                         .HasForeignKey("IdArticolo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,8 +364,12 @@ namespace AuthSystem.Migrations
 
             modelBuilder.Entity("AuthSystem.Models.Stazione", b =>
                 {
-                    b.HasOne("AuthSystem.Models.Linea", "Linee")
+                    b.HasOne("AuthSystem.Models.ComponenteArticolo", "ComponentiArticolo")
                         .WithMany()
+                        .HasForeignKey("ComponentiArticoloIdComponente");
+
+                    b.HasOne("AuthSystem.Models.Linea", "Linee")
+                        .WithMany("Stazioni")
                         .HasForeignKey("IdLinea")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -387,10 +377,6 @@ namespace AuthSystem.Migrations
 
             modelBuilder.Entity("AuthSystem.Models.Versamento", b =>
                 {
-                    b.HasOne("AuthSystem.Models.Articolo", null)
-                        .WithMany("Versamenti")
-                        .HasForeignKey("ArticoloIdArticolo");
-
                     b.HasOne("AuthSystem.Areas.Identity.Data.ApplicationUser", "AspNetUsers")
                         .WithMany()
                         .HasForeignKey("IdAspNetUsers");

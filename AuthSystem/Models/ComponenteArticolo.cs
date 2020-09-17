@@ -18,6 +18,11 @@ namespace AuthSystem.Models
         [DisplayName("Nome del componente")]
         public string NomeComponente { get; set; }
 
+        [Column(TypeName = "numeric")]
+        [DisplayName("Tempo produzione (Singolo articolo)")]
+        [Required(ErrorMessage = "Immettere il tempo di produzione del singolo articolo")]
+        public float TempoProduzione { get; set; }
+
         [DisplayName("Nome articolo")]
         public int IdArticolo { get; set; }
         [ForeignKey("IdArticolo")]

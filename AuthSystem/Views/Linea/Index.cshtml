@@ -5,18 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1><center>Linea</center></h1>
+<h1>Index</h1>
 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.NomeLinea)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Articoli)
-            </th>
-            <th><a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Linea</a></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,12 +26,9 @@
                 @Html.DisplayFor(modelItem => item.NomeLinea)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Articoli.NomeArticolo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdLinea"><i class="fa fa-marker fa-lg"></i></a> |
-
-                <a asp-action="Delete" asp-route-id="@item.IdLinea" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
+                <a asp-action="Edit" asp-route-id="@item.IdLinea">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdLinea">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdLinea">Delete</a>
             </td>
         </tr>
 }

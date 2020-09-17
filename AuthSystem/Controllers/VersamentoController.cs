@@ -51,7 +51,7 @@ namespace AuthSystem.Controllers
         {
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email");
             ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente");
-            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione");
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazioni, "IdNomeStazione", "NomeStazione");
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace AuthSystem.Controllers
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
             ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
-            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazioni, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 
@@ -89,7 +89,7 @@ namespace AuthSystem.Controllers
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
             ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
-            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazioni, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 
@@ -127,7 +127,7 @@ namespace AuthSystem.Controllers
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", versamento.IdAspNetUsers);
             ViewData["IdComponente"] = new SelectList(_context.ComponentiArticolo, "IdComponente", "NomeComponente", versamento.IdComponente);
-            ViewData["IdNomeStazione"] = new SelectList(_context.Stazion, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
+            ViewData["IdNomeStazione"] = new SelectList(_context.Stazioni, "IdNomeStazione", "NomeStazione", versamento.IdNomeStazione);
             return View(versamento);
         }
 

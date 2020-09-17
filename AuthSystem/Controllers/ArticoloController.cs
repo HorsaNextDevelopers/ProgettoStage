@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AuthSystem.Controllers
 {
-    [Authorize]
     public class ArticoloController : Controller
     {
         private readonly NContext _context;
@@ -20,13 +18,13 @@ namespace AuthSystem.Controllers
             _context = context;
         }
 
-        // GET: Articolo
+        // GET: Articoloe
         public async Task<IActionResult> Index()
         {
             return View(await _context.Articoli.ToListAsync());
         }
 
-        // GET: Articolo/Details/5
+        // GET: Articoloe/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,18 +42,18 @@ namespace AuthSystem.Controllers
             return View(articolo);
         }
 
-        // GET: Articolo/Create
+        // GET: Articoloe/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Articolo/Create
+        // POST: Articoloe/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Create([Bind("IdArticolo,NomeArticolo,Descrizione")] Articolo articolo)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +64,7 @@ namespace AuthSystem.Controllers
             return View(articolo);
         }
 
-        // GET: Articolo/Edit/5
+        // GET: Articoloe/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,12 +80,12 @@ namespace AuthSystem.Controllers
             return View(articolo);
         }
 
-        // POST: Articolo/Edit/5
+        // POST: Articoloe/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdArticolo,NomeArticolo,Descrizione,TempoProduzione")] Articolo articolo)
+        public async Task<IActionResult> Edit(int id, [Bind("IdArticolo,NomeArticolo,Descrizione")] Articolo articolo)
         {
             if (id != articolo.IdArticolo)
             {
@@ -117,7 +115,7 @@ namespace AuthSystem.Controllers
             return View(articolo);
         }
 
-        // GET: Articolo/Delete/5
+        // GET: Articoloe/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +133,7 @@ namespace AuthSystem.Controllers
             return View(articolo);
         }
 
-        // POST: Articolo/Delete/5
+        // POST: Articoloe/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

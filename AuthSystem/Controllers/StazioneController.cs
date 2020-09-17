@@ -21,7 +21,7 @@ namespace AuthSystem.Controllers
         // GET: Stazione
         public async Task<IActionResult> Index()
         {
-            var nContext = _context.Stazion.Include(s => s.Linee);
+            var nContext = _context.Stazioni.Include(s => s.Linee);
             return View(await nContext.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var stazione = await _context.Stazion
+            var stazione = await _context.Stazioni
                 .Include(s => s.Linee)
                 .FirstOrDefaultAsync(m => m.IdNomeStazione == id);
             if (stazione == null)
@@ -76,7 +76,7 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var stazione = await _context.Stazion.FindAsync(id);
+            var stazione = await _context.Stazioni.FindAsync(id);
             if (stazione == null)
             {
                 return NotFound();
@@ -129,7 +129,7 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var stazione = await _context.Stazion
+            var stazione = await _context.Stazioni
                 .Include(s => s.Linee)
                 .FirstOrDefaultAsync(m => m.IdNomeStazione == id);
             if (stazione == null)
@@ -145,15 +145,15 @@ namespace AuthSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var stazione = await _context.Stazion.FindAsync(id);
-            _context.Stazion.Remove(stazione);
+            var stazione = await _context.Stazioni.FindAsync(id);
+            _context.Stazioni.Remove(stazione);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StazioneExists(int id)
         {
-            return _context.Stazion.Any(e => e.IdNomeStazione == id);
+            return _context.Stazioni.Any(e => e.IdNomeStazione == id);
         }
     }
 }

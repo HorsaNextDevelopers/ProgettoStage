@@ -18,10 +18,11 @@ namespace AuthSystem.Models
         [DisplayName("Nome della linea")]
         public string NomeLinea { get; set; }
 
-        [DisplayName("Nome articolo")]
+        /*[DisplayName("Nome articolo")]
         public int IdArticolo { get; set; }
         [ForeignKey("IdArticolo")]
         [DisplayName("Nome articolo")]
-        public Articolo Articoli { get; set; }
+        public Articolo Articoli { get; set; }*/
+        public ICollection<Stazione> Stazioni { get; set; }
     }
 }

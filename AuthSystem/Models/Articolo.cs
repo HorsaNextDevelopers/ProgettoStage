@@ -26,12 +26,9 @@ namespace AuthSystem.Models
         [DisplayName("Descrizione articolo")]
         public string Descrizione { get; set; }
         
-        [Column(TypeName = "numeric")]
-        [DisplayName("Tempo produzione (Singolo articolo)")]
-        [Required(ErrorMessage = "Immettere il tempo di produzione del singolo articolo")]
-        public float TempoProduzione { get; set; }
 
-        public ICollection<Versamento> Versamenti { get; set; }
+
+        public ICollection<ComponenteArticolo> ComponentiArticolo{ get; set; }
         
     }
 }

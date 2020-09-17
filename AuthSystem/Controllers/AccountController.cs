@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace AuthSystem.Controllers
 {
-   //[Authorize(Roles = "Admin")]
+   
     public class AccountController : Controller
     {
         private readonly NContext _context;

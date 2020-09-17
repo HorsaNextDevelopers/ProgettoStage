@@ -43,6 +43,7 @@ namespace AuthSystem.Models
         [DisplayName("Nome componente")]
         public ComponenteArticolo ComponentiArticolo { get; set; }
 
+        [DisplayName("Nome stazione")]
         public int IdNomeStazione { get; set; }
         [ForeignKey("IdNomeStazione ")]
         [DisplayName("Nome stazione")]
