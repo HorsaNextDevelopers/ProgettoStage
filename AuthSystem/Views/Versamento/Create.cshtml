@@ -1,11 +1,11 @@
 ﻿@model AuthSystem.Models.Versamento
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crea versamento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Crea</h1>
 
 <h4>Versamento</h4>
 <hr />
@@ -46,14 +46,14 @@
                 <select asp-for="IdAspNetUsers" class ="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crea" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Torna alla lista</a>
 </div>
 
 @section Scripts {

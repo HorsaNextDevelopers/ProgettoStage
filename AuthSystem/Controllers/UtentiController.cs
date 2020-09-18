@@ -68,7 +68,7 @@ namespace AuthSystem.Controllers
         }
 
         // GET: Articolo/Edit/5
-        public async Task<IActionResult> Edit(string? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -123,7 +123,7 @@ namespace AuthSystem.Controllers
         
 
         // GET: Articolo/Delete/5
-        public async Task<IActionResult> Delete(string? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
