@@ -1,0 +1,45 @@
+﻿@model AuthSystem.ViewModel.GraficoViewModel
+
+<div>Grafici</div>
+
+<canvas id="myChart" width="400" height="400"></canvas>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: JSON.stringify(@Model.Labels),
+        datasets: [{
+            label: 'Numero di pezzi',
+            data: JSON.stringify(@Model.DataSet),
+            backgroundColor: color,
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+    function color (context) {
+        var index = context.dataIndex;
+        var value = context.dataset.data[index];
+        return index % 2 ? 'red' :    // else, alternate values in red and green
+                'green';
+    }
+</script>
