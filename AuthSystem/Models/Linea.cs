@@ -13,7 +13,7 @@ namespace AuthSystem.Models
         [Key]
         public int IdLinea{ get; set; }
 
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il nome della linea")]
         [DisplayName("Nome della linea")]
         public string NomeLinea { get; set; }

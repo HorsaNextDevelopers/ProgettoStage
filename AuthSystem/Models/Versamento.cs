@@ -17,11 +17,11 @@ namespace AuthSystem.Models
     {
         [Key]
         public int IdVersamento { get; set; }
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il numero dei pezzi fabbricati")]
         [DisplayName("Numero pezzi buoni")]
         public float PezziBuoni { get; set; }
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il numero dei pezzi fabbricati")]
         [DisplayName("Numero pezzi difettosi")]
         public float PezziDifettosi { get; set; }

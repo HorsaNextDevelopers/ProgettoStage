@@ -13,7 +13,7 @@ namespace AuthSystem.Models
         [Key]
         public int IdComponente { get; set; }
 
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il nome del componente")]
         [DisplayName("Nome del componente")]
         public string NomeComponente { get; set; }
