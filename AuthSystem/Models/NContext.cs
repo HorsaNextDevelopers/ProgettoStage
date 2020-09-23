@@ -42,22 +42,25 @@ namespace AuthSystem.Models
             const string ADMIN_ID = "a18be9c0-aa65-4af8-bd17-00bd9344e575";
             // any guid, but nothing is against to use the same one
             const string ROLE_ID = ADMIN_ID;
-            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole
             {
-                Id = ROLE_ID,
+                Id = ADMIN_ID,
                 Name = "Admin",
                 NormalizedName = "Admin"
             });
 
             var hasher = new PasswordHasher<ApplicationUser>();
 
-            builder.Entity<ApplicationUser>().HasData(new ApplicationUser
+            builder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser
             {
                 Id = ADMIN_ID,
-                UserName = "Admin",
-                NormalizedUserName = "Admin",
+                UserName = "admin@admin.com",
+                NormalizedUserName = "ADMIN@ADMIN.COM",
                 Email = "admin@admin.com",
-                NormalizedEmail = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Horsa123@"),
                 SecurityStamp = string.Empty
