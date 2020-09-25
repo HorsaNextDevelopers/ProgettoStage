@@ -94,17 +94,17 @@ namespace AuthSystem.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14952700-feb3-4502-8c79-dc68e2003bd0",
+                            ConcurrencyStamp = "ede5b70e-ca87-47c6-a499-7371446e37db",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFYJrsBPJwj9qxKY6Dn79FRCIdeFdYl2zI8UuJnIUoEm/NMxpRObAhfi6J01kL5S0Q==",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMQkaXDIUDcFL/vSjEKYXhLtq8yncR8n3g4gXxEI5+7CVDKIXBAGYNbP/56PsWandw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "admin@admin.com"
+                            UserName = "Admin"
                         });
                 });
 
@@ -266,9 +266,9 @@ namespace AuthSystem.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "361ccbda-bc37-4a75-a1c4-7f81f1395f49",
+                            ConcurrencyStamp = "2593d3af-f250-41b1-a537-c7a6f6c7b39f",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
                         });
                 });
 

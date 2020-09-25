@@ -37,15 +37,15 @@
 
             @if (this.User.IsInRole("Admin"))
             {
-            <li class="nav-item">
-                <a class="nav-link text-white" asp-area="" asp-controller="Utenti" asp-action="Index">Lista utenti</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Register">Registra utente</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" asp-area="" asp-controller="Role" asp-action="Index">Gestisci ruoli</a>
-            </li>}
+<li class="nav-item">
+    <a class="nav-link text-white" asp-area="" asp-controller="Utenti" asp-action="Index">Lista utenti</a>
+</li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Register">Registra utente</a>
+                    </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-controller="Role" asp-action="Index">Gestisci ruoli</a>
+                                        </li>}
 
 
         </ul>

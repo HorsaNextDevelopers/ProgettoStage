@@ -9,7 +9,7 @@ namespace AuthSystem.ViewModel
     {
         public string [] Labels { get; set; }
 
-        public int [] DataSet { get; set; }
+        public StackedBarDatasetViewModel [] DataSet { get; set; }
 
     }
 }
