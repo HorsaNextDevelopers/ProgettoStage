@@ -7,9 +7,6 @@
 
 <h1>Articoli</h1>
 
-<p>
-    <a asp-action="Create">Crea nuovo articolo</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +16,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Descrizione)
             </th>
-            <th></th>
+            <th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Articoli</a> </th>
         </tr>
     </thead>
     <tbody>

@@ -7,16 +7,13 @@
 
 <h1>Linee</h1>
 
-<p>
-    <a asp-action="Create">Crea nuova linea</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.NomeLinea)
             </th>
-            <th></th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Linee</a> </th>
         </tr>
     </thead>
     <tbody>
