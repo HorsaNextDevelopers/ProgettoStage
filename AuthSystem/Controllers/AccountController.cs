@@ -51,7 +51,7 @@ namespace AuthSystem.Controllers
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser {Email = viewModel.Email, FirstName = viewModel.FirstName, LastName = viewModel.LastName};
+                ApplicationUser user = new ApplicationUser {UserName = viewModel.Email, Email = viewModel.Email, FirstName = viewModel.FirstName, LastName = viewModel.LastName};
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
