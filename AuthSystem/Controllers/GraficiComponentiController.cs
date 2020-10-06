@@ -30,5 +30,12 @@ namespace AuthSystem.Controllers
 
             return View(viewModel);
         }
+
+        public IActionResult GetComponenti(int idArticolo)
+        {
+            var componenti = _context.ComponentiArticolo.Where(c => c.IdArticolo == idArticolo).ToList();
+
+            return this.Ok(componenti);
+        }
     }
 }
