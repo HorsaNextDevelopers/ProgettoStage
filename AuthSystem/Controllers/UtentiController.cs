@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AuthSystem.Controllers
 {
-   
+    [Authorize(Roles = "Admin")]
     public class UtentiController : Controller
     {
       
