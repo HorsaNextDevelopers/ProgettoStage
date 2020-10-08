@@ -5,36 +5,70 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Grafici componenti</h1>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+   
+    <h1>Grafici componenti</h1>
+
+    <canvas id="myChart" width="400" height="400"></canvas>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+   
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div class="form-group">
-                <label class="control-label">Scegli un articolo: </label>
-                <select class="form-control" asp-items="Model.Articoli" id="selectArticoli"></select>
-             </div>
-            <div class="form-group">
-                <input type="submit" value="Salva" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div class="form-group">
+                    <label class="control-label">Scegli un articolo: </label>
+                    <select class="form-control" asp-items="Model.Articoli" id="selectArticoli"></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Scegli un articolo: </label>
+                    <select id="selectComponentiArticoli"></select>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="submit" value="Salva" class="btn btn-primary" />
+                </div>
+
+                <div>
+                    <select id="dropdown"></select>
+                    <button type="button" id="btn-phones">Populate Phones</button>
+                    <button type="button" id="btn-cars">Populate Cars</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-
-            function getComponenti() {
-                var idArticolo = $("#selectArticoli").val();
-                $.ajax({
-                    url: "GraficiComponenti/GetComponenti?idArticolo=" + idArticolo
-        }).done(function (result) {
-            console.log(result);
+    <script>
+        $(document).ready(function () {
+            $("#btn-phones").click(function () {
+                var PHONES = new Array("Sony", "Samsung", "HTC", "Motorolla");
+                $("#dropdown").find('option').remove();
+                for (i = 0; i < PHONES.length; i++) {
+                    $("#dropdown").append('<option value="' + PHONES[i] + '">' + PHONES[i] + '</option>');
+                }
+            });
+            $("#btn-cars").click(function () {
+                var CARS = new Array("Ford", "Honda", "Toyota", "Suzuki");
+                $("#dropdown").find('option').remove();
+                for (i = 0; i < CARS.length; i++) {
+                    $("#dropdown").append('<option value="' + CARS[i] + '">' + CARS[i] + '</option>');
+                }
+            });
         });
-    }
+    </script>
 
-</script>
+    <script>
+
+        function getComponenti() {
+            var idArticolo = $("#selectArticoli").val();
+            $.ajax({
+                url: "GraficiComponenti/GetComponenti?idArticolo=" + idArticolo
+            }).done(function (result) {
+                console.log(result);
+            });
+        }
+
+    </script>
