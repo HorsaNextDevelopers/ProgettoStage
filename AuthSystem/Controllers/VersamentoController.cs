@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AuthSystem.Controllers
 {
-    [Authorize]
     public class VersamentoController : Controller
     {
         private readonly NContext _context;

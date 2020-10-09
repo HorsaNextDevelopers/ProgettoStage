@@ -49,6 +49,7 @@ namespace AuthSystem.Models
                     Id = "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1",
                     Name = "Normal",
                     NormalizedName = "NORMAL"
+
                 });
 
             var hasher = new PasswordHasher<ApplicationUser>();
@@ -68,7 +69,6 @@ namespace AuthSystem.Models
             adminUser.PasswordHash = hasher.HashPassword(adminUser, "Horsa123@");
 
             builder.Entity<ApplicationUser>().HasData(adminUser);
-
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
