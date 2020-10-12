@@ -79,50 +79,37 @@
 <script>
     function renderGrafico() {
         var chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Versamento1', 'Versamento2', 'Versamento3', 'Versamento4', 'Versamento5', 'Versamento6', 'Versamento7'],
             datasets: [{
                 type: 'line',
-                label: 'Dataset 1',
-                borderColor: window.chartColors.blue,
+                label: 'Tempo di produzione ideale',
+               // borderColor: window.chartColors.blue,
                 borderWidth: 2,
                 fill: false,
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
                 ]
             }, {
                 type: 'bar',
-                label: 'Dataset 2',
-                backgroundColor: window.chartColors.red,
+                label: 'Tempo produzione effettivo',
+               // backgroundColor: window.chartColors.red,
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
+                   11,
+                   15,
+                   30,
+                   21,
+                   43,
+                    9,
+                    5
                 ],
                 borderColor: 'white',
                 borderWidth: 2
-            }, {
-                type: 'bar',
-                label: 'Dataset 3',
-                backgroundColor: window.chartColors.green,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ]
             }]
 
         };
@@ -131,7 +118,7 @@
                 return randomScalingFactor();
             });
         });*/
-        window.myMixedChart.datasets = chartData;
+        window.myMixedChart.datasets.push(chartData);
         window.myMixedChart.update();
        
     }
