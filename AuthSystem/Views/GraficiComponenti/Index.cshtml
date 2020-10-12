@@ -20,15 +20,15 @@
 
             <div>
                 <label class="control-label">Scegli un componente: </label>
-                <select class="form-control" id="dropdown"></select>
+                <select class="form-control" id="dropdown" id="selectComponenti"></select>
             </div>
 
-            <br/>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Salva" class="btn btn-primary" onclick="renderGrafico()"/>
+                <input value="renderizza" class="btn btn-primary" onclick="renderGraficoTest()" />
             </div>
 
-            
+
         </form>
     </div>
 </div>
@@ -41,26 +41,40 @@
         $("#selectArticoli").change(function () {
             getComponenti();
         });
+
         var ctx = document.getElementById('myChart').getContext('2d');
         window.myMixedChart = new Chart(ctx, {
             type: 'bar',
-            data: {},
+            data: chartData,
             options: {
                 responsive: true,
                 title: {
                     display: true,
                     text: 'Chart.js Combo Bar Line Chart'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: true
                 }
             }
         });
     });
-</script>
 
-<script>
+    var chartData = {
+        labels: ["test1", "test2"],
+        datasets: [{
+            type: 'line',
+            label: 'Tempo di produzione ideale',
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            fill: false,
+            data: [5, 5]
+        }, {
+            type: 'bar',
+            label: 'Tempo produzione effettivo',
+            backgroundColor: 'rgb(255, 99, 132)',
+            data: [10, 20],
+            borderColor: 'white',
+            borderWidth: 2
+        }]
+    };
+
 
     function getComponenti() {
         var idArticolo = $("#selectArticoli").val();
@@ -74,54 +88,48 @@
         });
     }
 
-</script>
+    function getDatiGrafico() {
+        var idComponente = $("#selectComponenti").val();
+        $.ajax({
+            url: "GraficiComponenti/GetDatiGrafico?idComponente=" + idComponente
+        }).done(function (result) {
+            renderGrafico(result);
+        });
+    }
 
-<script>
-    function renderGrafico() {
-        var chartData = {
+    function renderGraficoTest() {
+        var result = {
             labels: ['Versamento1', 'Versamento2', 'Versamento3', 'Versamento4', 'Versamento5', 'Versamento6', 'Versamento7'],
-            datasets: [{
-                type: 'line',
-                label: 'Tempo di produzione ideale',
-               // borderColor: window.chartColors.blue,
-                borderWidth: 2,
-                fill: false,
-                data: [
-                    10,
-                    10,
-                    10,
-                    10,
-                    10,
-                    10,
-                    10
-                ]
-            }, {
-                type: 'bar',
-                label: 'Tempo produzione effettivo',
-               // backgroundColor: window.chartColors.red,
-                data: [
-                   11,
-                   15,
-                   30,
-                   21,
-                   43,
-                    9,
-                    5
-                ],
-                borderColor: 'white',
-                borderWidth: 2
-            }]
-
+            datasets: [4, 15, 21, 7, 12, 19, 6],
+            tempoIdeale: 5
         };
-       /* chartData.datasets.forEach(function (dataset) {
-            dataset.data = dataset.data.map(function () {
-                return randomScalingFactor();
+
+        renderGrafico(result);
+    }
+
+    function renderGrafico(result) {
+        debugger;
+        var totLabels = window.myMixedChart.data.labels.length;
+        for (var index = 0; index <= totLabels; index++) {
+            window.myMixedChart.data.labels.pop();
+            window.myMixedChart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
             });
-        });*/
-        window.myMixedChart.datasets.push(chartData);
+        }
+
+        result.labels.forEach((label) => {
+            window.myMixedChart.data.labels.push(label);
+        });
+
+        result.datasets.forEach((dt) => {
+            window.myMixedChart.data.datasets[0].data.push(result.tempoIdeale);
+            window.myMixedChart.data.datasets[1].data.push(dt);
+        });
+
         window.myMixedChart.update();
-       
     }
 
 </script>
- 
+
+
+

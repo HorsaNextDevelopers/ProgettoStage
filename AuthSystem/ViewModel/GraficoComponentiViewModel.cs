@@ -6,5 +6,9 @@ namespace AuthSystem.ViewModel
     {
         public SelectList Articoli { get; set; }
         public SelectList ComponentiArticolo { get; set; }
+
+        public string[] Labels { get; set; }
+
+        public BarLineDataSetView[] DataSet { get; set; }
     }
 }
