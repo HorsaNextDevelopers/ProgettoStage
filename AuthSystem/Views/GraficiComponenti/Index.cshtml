@@ -7,7 +7,8 @@
 
 <h1>Grafici componenti</h1>
 
-@*<canvas id="myChart" width="400" height="400"></canvas>*@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 
 <div class="row">
     <div class="col-md-4">
@@ -24,13 +25,14 @@
 
             <br/>
             <div class="form-group">
-                <input type="submit" value="Salva" class="btn btn-primary" />
+                <input type="submit" value="Salva" class="btn btn-primary" onclick="renderGrafico()"/>
             </div>
 
             
         </form>
     </div>
 </div>
+<canvas id="myChart" width="400" height="400"></canvas>
 
 <script>
     $(document).ready(function () {
@@ -38,6 +40,22 @@
 
         $("#selectArticoli").change(function () {
             getComponenti();
+        });
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myMixedChart = new Chart(ctx, {
+            type: 'bar',
+            data: {},
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Chart.js Combo Bar Line Chart'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: true
+                }
+            }
         });
     });
 </script>
@@ -59,40 +77,64 @@
 </script>
 
 <script>
-    var chartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            type: 'line',
-            label: 'Dataset 1',
-            borderColor: window.chartColors.blue,
-            borderWidth: 2,
-            fill: false,
-            data: 
-    window.onload = function () {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myMixedChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Chart.js Combo Bar Line Chart'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: true
-                }
-            }
-        });
-    };
+    function renderGrafico() {
+        var chartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                type: 'line',
+                label: 'Dataset 1',
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ]
+            }, {
+                type: 'bar',
+                label: 'Dataset 2',
+                backgroundColor: window.chartColors.red,
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: 'Dataset 3',
+                backgroundColor: window.chartColors.green,
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ]
+            }]
 
-    document.getElementById('randomizeData').addEventListener('click', function () {
-        chartData.datasets.forEach(function (dataset) {
+        };
+       /* chartData.datasets.forEach(function (dataset) {
             dataset.data = dataset.data.map(function () {
                 return randomScalingFactor();
             });
-        });
+        });*/
+        window.myMixedChart.datasets = chartData;
         window.myMixedChart.update();
-    });
+       
+    }
+
 </script>
+ 
