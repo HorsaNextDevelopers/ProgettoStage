@@ -37,5 +37,24 @@ namespace AuthSystem.Controllers
 
             return this.Ok(componenti);
         }
+
+        public IActionResult GetDatiGrafico(int idComponente)
+        {
+            var viewModel = new ChartComponentiModel();
+
+            var versamenti = _context.Versamenti.ToList();
+
+            var componente = _context.ComponentiArticolo.Single(c => c.IdComponente == idComponente);
+
+            viewModel.Labels = versamenti.Select(s => s.Data.ToShortDateString()).ToArray();
+
+            viewModel.Dataset = versamenti.Select(s => s.PezziBuoni == 0 ? 0 : Convert.ToInt32(s.TempoProd / s.PezziBuoni)).ToArray();
+
+            viewModel.TempoIdeale = Convert.ToInt32(componente.TempoProduzione);
+
+
+
+            return this.Ok(viewModel);
+        }
     }
 }

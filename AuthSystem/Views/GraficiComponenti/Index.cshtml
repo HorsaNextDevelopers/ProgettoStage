@@ -25,7 +25,7 @@
 
             <br />
             <div class="form-group">
-                <input value="renderizza" class="btn btn-primary" onclick="renderGraficoTest()" />
+                <input value="Renderizza" class="btn btn-primary" onclick="getDatiGrafico()" />
             </div>
 
 
@@ -83,7 +83,7 @@
         }).done(function (result) {
             $("#dropdown").find('option').remove();
             for (i = 0; i < result.length; i++) {
-                $("#dropdown").append('<option value="' + result[i].idArticolo + '">' + result[i].nomeComponente + '</option>');
+                $("#dropdown").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
             }
         });
     }
