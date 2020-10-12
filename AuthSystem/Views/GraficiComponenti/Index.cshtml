@@ -57,3 +57,42 @@
     }
 
 </script>
+
+<script>
+    var chartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            type: 'line',
+            label: 'Dataset 1',
+            borderColor: window.chartColors.blue,
+            borderWidth: 2,
+            fill: false,
+            data: 
+    window.onload = function () {
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myMixedChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Chart.js Combo Bar Line Chart'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: true
+                }
+            }
+        });
+    };
+
+    document.getElementById('randomizeData').addEventListener('click', function () {
+        chartData.datasets.forEach(function (dataset) {
+            dataset.data = dataset.data.map(function () {
+                return randomScalingFactor();
+            });
+        });
+        window.myMixedChart.update();
+    });
+</script>
