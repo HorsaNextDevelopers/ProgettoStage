@@ -20,7 +20,7 @@
 
             <div>
                 <label class="control-label">Scegli un componente: </label>
-                <select class="form-control" id="dropdown" id="selectComponenti"></select>
+                <select class="form-control" @*id="dropdown"*@ id="selectComponenti"></select>
             </div>
 
             <br />
@@ -81,9 +81,9 @@
         $.ajax({
             url: "GraficiComponenti/GetComponenti?idArticolo=" + idArticolo
         }).done(function (result) {
-            $("#dropdown").find('option').remove();
+            $("#selectComponenti").find('option').remove();
             for (i = 0; i < result.length; i++) {
-                $("#dropdown").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
+                $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
             }
         });
     }
