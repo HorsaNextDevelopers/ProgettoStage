@@ -1,4 +1,5 @@
-﻿@model AuthSystem.ViewModel.GraficoComponentiViewModel
+﻿
+@model AuthSystem.ViewModel.GraficoComponentiViewModel
 
 @{
     ViewData["Title"] = "Grafici";
@@ -25,7 +26,7 @@
 
             <br />
             <div class="form-group">
-                <input value="Renderizza" class="btn btn-primary" onclick="getDatiGrafico()" />
+                <input type="button" value="Renderizza" class="btn btn-primary" onclick="getDatiGrafico()" />
             </div>
 
 
@@ -57,19 +58,19 @@
     });
 
     var chartData = {
-        labels: ["test1", "test2"],
+        labels: @Html.Raw(Json.Serialize(@Model.Labels)),
         datasets: [{
             type: 'line',
             label: 'Tempo di produzione ideale',
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
             fill: false,
-            data: [5, 5]
+            data: @Html.Raw(Json.Serialize(@Model.TempoIdeale))
         }, {
             type: 'bar',
             label: 'Tempo produzione effettivo',
             backgroundColor: 'rgb(255, 99, 132)',
-            data: [10, 20],
+            data: @Html.Raw(Json.Serialize(@Model.Dataset)),
             borderColor: 'white',
             borderWidth: 2
         }]
