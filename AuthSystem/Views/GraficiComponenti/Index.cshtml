@@ -33,7 +33,7 @@
         </form>
     </div>
 </div>
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" width="300" height="300"></canvas>
 
 <script>
     $(document).ready(function () {
@@ -51,7 +51,20 @@
                 responsive: true,
                 title: {
                     display: true,
-                    text: 'Chart.js Combo Bar Line Chart'
+                    text: ''
+                },
+                 tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
                 }
             }
         });
@@ -110,7 +123,7 @@
 
     function renderGrafico(result) {
         var totLabels = window.myMixedChart.data.labels.length;
-        for (var index = 0; index <= totLabels; index++) {
+        for (var index = 0; index <= totLabels; ++index) {
             window.myMixedChart.data.labels.pop();
             window.myMixedChart.data.datasets.forEach((dataset) => {
                 dataset.data.pop();
