@@ -42,7 +42,7 @@ namespace AuthSystem.Controllers
         {
             var viewModel = new ChartComponentiModel();
 
-            var versamenti = _context.Versamenti.ToList();
+            var versamenti = _context.Versamenti.Where(c => c.IdComponente == idComponente).ToList();
 
             var componente = _context.ComponentiArticolo.Single(c => c.IdComponente == idComponente);
 
@@ -51,8 +51,6 @@ namespace AuthSystem.Controllers
             viewModel.Dataset = versamenti.Select(s => s.PezziBuoni == 0 ? 0 : Convert.ToInt32(s.TempoProd / s.PezziBuoni)).ToArray();
 
             viewModel.TempoIdeale = Convert.ToInt32(componente.TempoProduzione);
-
-
 
             return this.Ok(viewModel);
         }

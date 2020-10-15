@@ -58,19 +58,19 @@
     });
 
     var chartData = {
-        labels: @Html.Raw(Json.Serialize(@Model.Labels)),
+        labels: null,
         datasets: [{
             type: 'line',
             label: 'Tempo di produzione ideale',
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
             fill: false,
-            data: @Html.Raw(Json.Serialize(@Model.TempoIdeale))
+            data: null,
         }, {
             type: 'bar',
             label: 'Tempo produzione effettivo',
             backgroundColor: 'rgb(255, 99, 132)',
-            data: @Html.Raw(Json.Serialize(@Model.Dataset)),
+            data: null,
             borderColor: 'white',
             borderWidth: 2
         }]
@@ -109,7 +109,6 @@
     }
 
     function renderGrafico(result) {
-        debugger;
         var totLabels = window.myMixedChart.data.labels.length;
         for (var index = 0; index <= totLabels; index++) {
             window.myMixedChart.data.labels.pop();
@@ -122,7 +121,7 @@
             window.myMixedChart.data.labels.push(label);
         });
 
-        result.datasets.forEach((dt) => {
+        result.dataset.forEach((dt) => {
             window.myMixedChart.data.datasets[0].data.push(result.tempoIdeale);
             window.myMixedChart.data.datasets[1].data.push(dt);
         });
