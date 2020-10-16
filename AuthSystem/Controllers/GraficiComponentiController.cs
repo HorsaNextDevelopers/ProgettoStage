@@ -48,7 +48,7 @@ namespace AuthSystem.Controllers
 
             viewModel.Labels = versamenti.Select(s => s.Data.ToShortDateString()).ToArray();
 
-            viewModel.Dataset = versamenti.Select(s => s.PezziBuoni == 0 ? 0 : Convert.ToInt32(s.TempoProd / s.PezziBuoni)).ToArray();
+            viewModel.Dataset = versamenti.Select(s => s.PezziBuoni == 0 ? 0 : Convert.ToInt32(s.TempoProd / (s.PezziBuoni + s.PezziDifettosi))).ToArray();
 
             viewModel.TempoIdeale = Convert.ToInt32(componente.TempoProduzione);
 
