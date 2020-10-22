@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuthSystem.Models
 {
@@ -13,7 +9,7 @@ namespace AuthSystem.Models
         [Key]
         public int IdComponente { get; set; }
 
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il nome del componente")]
         [DisplayName("Nome del componente")]
         public string NomeComponente { get; set; }

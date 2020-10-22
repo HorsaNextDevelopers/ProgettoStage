@@ -1,0 +1,148 @@
+﻿
+@model AuthSystem.ViewModel.GraficoComponentiViewModel
+
+@{
+    ViewData["Title"] = "Grafici";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Grafici componenti</h1>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div class="form-group">
+                <label class="control-label">Scegli un articolo: </label>
+                <select class="form-control" asp-items="Model.Articoli" id="selectArticoli"></select>
+            </div>
+
+            <div>
+                <label class="control-label">Scegli un componente: </label>
+                <select class="form-control" @*id="dropdown"*@ id="selectComponenti"></select>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="button" value="Renderizza" class="btn btn-primary" onclick="getDatiGrafico()" />
+            </div>
+
+
+        </form>
+    </div>
+</div>
+<canvas id="myChart" width="200" height="100"></canvas>
+
+<script>
+    $(document).ready(function () {
+        getComponenti();
+
+        $("#selectArticoli").change(function () {
+            getComponenti();
+        });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myMixedChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: ''
+                },
+                 tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    });
+
+    var chartData = {
+        labels: null,
+        datasets: [{
+            type: 'line',
+            label: 'Tempo di produzione ideale',
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            fill: false,
+            data: null,
+        }, {
+            type: 'bar',
+            label: 'Tempo produzione effettivo',
+            backgroundColor: 'rgb(255, 99, 132)',
+            data: null,
+            borderColor: 'white',
+            borderWidth: 2
+        }]
+    };
+
+
+    function getComponenti() {
+        var idArticolo = $("#selectArticoli").val();
+        $.ajax({
+            url: "GraficiComponenti/GetComponenti?idArticolo=" + idArticolo
+        }).done(function (result) {
+            $("#selectComponenti").find('option').remove();
+            for (i = 0; i < result.length; i++) {
+                $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
+            }
+        });
+    }
+
+    function getDatiGrafico() {
+        var idComponente = $("#selectComponenti").val();
+        $.ajax({
+            url: "GraficiComponenti/GetDatiGrafico?idComponente=" + idComponente
+        }).done(function (result) {
+            renderGrafico(result);
+        });
+    }
+
+    function renderGraficoTest() {
+        var result = {
+            labels: ['Versamento1', 'Versamento2', 'Versamento3', 'Versamento4', 'Versamento5', 'Versamento6', 'Versamento7'],
+            datasets: [4, 15, 21, 7, 12, 19, 6],
+            tempoIdeale: 5
+        };
+
+        renderGrafico(result);
+    }
+
+    function renderGrafico(result) {
+        var totLabels = window.myMixedChart.data.labels.length;
+        for (var index = 0; index <= totLabels; ++index) {
+            window.myMixedChart.data.labels.pop();
+            window.myMixedChart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+        }
+
+        result.labels.forEach((label) => {
+            window.myMixedChart.data.labels.push(label);
+        });
+
+        result.dataset.forEach((dt) => {
+            window.myMixedChart.data.datasets[0].data.push(result.tempoIdeale);
+            window.myMixedChart.data.datasets[1].data.push(dt);
+        });
+
+        window.myMixedChart.update();
+    }
+
+</script>
+
+
+

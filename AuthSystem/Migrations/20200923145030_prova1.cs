@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthSystem.Migrations
 {
-    public partial class prova : Migration
+    public partial class prova1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,7 @@ namespace AuthSystem.Migrations
                 {
                     IdLinea = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeLinea = table.Column<string>(type: "nchar(250)", nullable: false)
+                    NomeLinea = table.Column<string>(type: "nvarchar(250)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,7 +81,7 @@ namespace AuthSystem.Migrations
                 {
                     IdComponente = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeComponente = table.Column<string>(type: "nchar(250)", nullable: false),
+                    NomeComponente = table.Column<string>(type: "nvarchar(250)", nullable: false),
                     TempoProduzione = table.Column<decimal>(type: "numeric", nullable: false),
                     IdArticolo = table.Column<int>(nullable: false)
                 },
@@ -208,7 +208,7 @@ namespace AuthSystem.Migrations
                 {
                     IdNomeStazione = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeStazione = table.Column<string>(type: "nchar(250)", nullable: false),
+                    NomeStazione = table.Column<string>(type: "nvarchar(250)", nullable: false),
                     IdLinea = table.Column<int>(nullable: false),
                     ComponentiArticoloIdComponente = table.Column<int>(nullable: true)
                 },
@@ -235,8 +235,8 @@ namespace AuthSystem.Migrations
                 {
                     IdVersamento = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PezziBuoni = table.Column<string>(type: "nchar(250)", nullable: false),
-                    PezziDifettosi = table.Column<string>(type: "nchar(250)", nullable: false),
+                    PezziBuoni = table.Column<string>(type: "nvarchar(250)", nullable: false),
+                    PezziDifettosi = table.Column<string>(type: "nvarchar(250)", nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     TempoProd = table.Column<decimal>(type: "numeric", nullable: false),
                     IdComponente = table.Column<int>(nullable: false),
@@ -265,6 +265,21 @@ namespace AuthSystem.Migrations
                         principalColumn: "IdNomeStazione",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "361ccbda-bc37-4a75-a1c4-7f81f1395f49", "Admin", "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "14952700-feb3-4502-8c79-dc68e2003bd0", "admin@admin.com", true, null, null, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEFYJrsBPJwj9qxKY6Dn79FRCIdeFdYl2zI8UuJnIUoEm/NMxpRObAhfi6J01kL5S0Q==", null, false, "", false, "admin@admin.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "a18be9c0-aa65-4af8-bd17-00bd9344e575" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

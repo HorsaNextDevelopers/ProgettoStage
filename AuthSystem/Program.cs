@@ -24,6 +24,7 @@ namespace AuthSystem
                 {
                     var context = services.GetRequiredService<NContext>();
                     context.Database.EnsureCreated();
+                    // ruolo admin e utente
                 }
                 catch (Exception ex)
                 {

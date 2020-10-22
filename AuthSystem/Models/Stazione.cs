@@ -14,7 +14,7 @@ namespace AuthSystem.Models
 
         public int IdNomeStazione { get; set; }
 
-        [Column(TypeName = "nchar(250)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Required(ErrorMessage = "Immettere il nome della stazione")]
         [DisplayName("Nome della stazione di lavoro")]
 

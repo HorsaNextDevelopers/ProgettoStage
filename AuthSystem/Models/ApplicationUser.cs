@@ -10,7 +10,7 @@ using Xamarin.Essentials;
 
 namespace AuthSystem.Areas.Identity.Data
 {
-
+    
     public class ApplicationUser : IdentityUser
     {
         [PersonalData]

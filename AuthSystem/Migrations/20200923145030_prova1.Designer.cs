@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20200917113253_prova")]
-    partial class prova
+    [Migration("20200923145030_prova1")]
+    partial class prova1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,24 @@ namespace AuthSystem.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "14952700-feb3-4502-8c79-dc68e2003bd0",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFYJrsBPJwj9qxKY6Dn79FRCIdeFdYl2zI8UuJnIUoEm/NMxpRObAhfi6J01kL5S0Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("AuthSystem.Models.Articolo", b =>
@@ -124,7 +142,7 @@ namespace AuthSystem.Migrations
 
                     b.Property<string>("NomeComponente")
                         .IsRequired()
-                        .HasColumnType("nchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<decimal>("TempoProduzione")
                         .HasColumnType("numeric");
@@ -145,7 +163,7 @@ namespace AuthSystem.Migrations
 
                     b.Property<string>("NomeLinea")
                         .IsRequired()
-                        .HasColumnType("nchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("IdLinea");
 
@@ -167,7 +185,7 @@ namespace AuthSystem.Migrations
 
                     b.Property<string>("NomeStazione")
                         .IsRequired()
-                        .HasColumnType("nchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("IdNomeStazione");
 
@@ -200,11 +218,11 @@ namespace AuthSystem.Migrations
 
                     b.Property<string>("PezziBuoni")
                         .IsRequired()
-                        .HasColumnType("nchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PezziDifettosi")
                         .IsRequired()
-                        .HasColumnType("nchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<decimal>("TempoProd")
                         .HasColumnType("numeric");
@@ -245,6 +263,15 @@ namespace AuthSystem.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            ConcurrencyStamp = "361ccbda-bc37-4a75-a1c4-7f81f1395f49",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -332,6 +359,13 @@ namespace AuthSystem.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            RoleId = "a18be9c0-aa65-4af8-bd17-00bd9344e575"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
