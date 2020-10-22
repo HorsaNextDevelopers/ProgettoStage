@@ -13,6 +13,7 @@ namespace AuthSystem.Controllers
     [Authorize]
     public class GraficiComponentiController : Controller
     {
+
         private readonly NContext _context;
 
         public GraficiComponentiController(NContext context)
