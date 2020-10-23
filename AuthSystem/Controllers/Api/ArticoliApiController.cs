@@ -46,31 +46,34 @@ namespace AuthSystem.Controllers.Api
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] Articolo articolo)
         {
 
-            if (id != articolo.IdArticolo)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            if (ModelState.IsValid)
+            if (id != articolo.IdArticolo)
             {
-                try
-                {
-                    _context.Update(articolo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ArticoloExists(articolo.IdArticolo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
+
+            _context.Entry(articolo).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ArticoloExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return NoContent();
         }
 
