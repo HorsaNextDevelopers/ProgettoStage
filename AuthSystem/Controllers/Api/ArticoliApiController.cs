@@ -23,14 +23,16 @@ namespace AuthSystem.Controllers.Api
 
         // GET: api/<ArticoliApiController>
         [HttpGet]
-        public IEnumerable<Articolo> GetLista()
+        public IEnumerable<Articolo> Get()
         {
             return _context.Articoli;
         }
 
         // GET api/<ArticoliApiController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Articolo>> GetArticolo(int? id)
+        //[HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetArticolo/{id}")]
+        public async Task<ActionResult<Articolo>> GetArticolo(int id)
         {
             var articolo = await _context.Articoli.FirstOrDefaultAsync(m => m.IdArticolo == id);
 
@@ -42,8 +44,9 @@ namespace AuthSystem.Controllers.Api
         }
 
         // GET api/<ArticoliApiController>/nome
-        [HttpGet("{nome}")]
-        public async Task<ActionResult<Articolo>> GetNomeArticolo(string? nome)
+        [HttpGet]
+        [Route("GetNomeArticolo/{nome}")]
+        public async Task<ActionResult<Articolo>> GetNomeArticolo(string nome)
         {
             var articolo = await _context.Articoli
                .FirstOrDefaultAsync(m => m.NomeArticolo == nome);
