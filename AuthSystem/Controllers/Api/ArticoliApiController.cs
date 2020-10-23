@@ -21,6 +21,7 @@ namespace AuthSystem.Controllers.Api
             _context = context;
         }
 
+
         // GET: api/<ArticoliApiController>
         [HttpGet]
         public IEnumerable<string> Get()
