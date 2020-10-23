@@ -21,22 +21,41 @@ namespace AuthSystem.Controllers.Api
             _context = context;
         }
 
-        // GET: api/<ArticoliApiController>
+        //GET: api/<ArticoliApiController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Articolo> GetLista()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Articoli;
         }
 
         // GET api/<ArticoliApiController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Articolo>> GetArticolo(int? id)
         {
-            return "value";
+            var articolo = await _context.Articoli.FirstOrDefaultAsync(m => m.IdArticolo == id);
+
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+            return articolo;
         }
 
-        [Produces("application/json")]
-        [Consumes("application/json")]
+        // GET api/<ArticoliApiController>/nome
+        [HttpGet("{nome}")]
+        public async Task<ActionResult<Articolo>> GetNomeArticolo(string? nome)
+        {
+            var articolo = await _context.Articoli
+               .FirstOrDefaultAsync(m => m.NomeArticolo == nome);
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+
+            return articolo;
+        }
+
+
         [HttpPost]
         // POST api/<ArticoliApiController>
         public async Task<IActionResult> Post([FromBody] Articolo articolo)
@@ -45,10 +64,10 @@ namespace AuthSystem.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
-            
-                _context.Articoli.Add(articolo);
-                await _context.SaveChangesAsync();
-                return Ok(articolo);
+
+            _context.Articoli.Add(articolo);
+            await _context.SaveChangesAsync();
+            return Ok(articolo);
         }
 
         // PUT api/<ArticoliApiController>/5
@@ -89,8 +108,25 @@ namespace AuthSystem.Controllers.Api
 
         // DELETE api/<ArticoliApiController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<Articolo>> DeletetArticolo(int? id)
         {
+            var articolo = await _context.Articoli
+               .FirstOrDefaultAsync(m => m.IdArticolo == id);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+            _context.Articoli.Remove(articolo);
+            await _context.SaveChangesAsync();
+
+            return articolo;
         }
 
         private bool ArticoloExists(int id)
