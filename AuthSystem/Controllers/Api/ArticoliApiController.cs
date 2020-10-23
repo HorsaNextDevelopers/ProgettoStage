@@ -34,28 +34,28 @@ namespace AuthSystem.Controllers.Api
         [Route("GetArticolo/{id}")]
         public async Task<ActionResult<Articolo>> GetArticolo(int id)
         {
-            var articolo = await _context.Articoli.FirstOrDefaultAsync(m => m.IdArticolo == id);
+            var articolo = await _context.Articoli.SingleOrDefaultAsync(m => m.IdArticolo == id);
 
             if (articolo == null)
             {
                 return NotFound();
             }
-            return articolo;
+            return this.Ok(articolo);
         }
 
         // GET api/<ArticoliApiController>/nome
         [HttpGet]
         [Route("GetNomeArticolo/{nome}")]
-        public async Task<ActionResult<Articolo>> GetNomeArticolo(string nome)
+        public IActionResult GetNomeArticolo(string nome)
         {
-            var articolo = await _context.Articoli
-               .FirstOrDefaultAsync(m => m.NomeArticolo == nome);
-            if (articolo == null)
+            var articoli =_context.Articoli
+               .Where(m => m.NomeArticolo.ToLower().Contains(nome.ToLower()));
+            if (articoli == null)
             {
                 return NotFound();
             }
 
-            return articolo;
+            return this.Ok(articoli.ToList());
         }
 
 
@@ -67,7 +67,7 @@ namespace AuthSystem.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
-
+            articolo.IdArticolo = 0;
             _context.Articoli.Add(articolo);
             await _context.SaveChangesAsync();
             return Ok(articolo);
@@ -111,17 +111,11 @@ namespace AuthSystem.Controllers.Api
 
         // DELETE api/<ArticoliApiController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Articolo>> DeletetArticolo(int? id)
+        public async Task<ActionResult<Articolo>> DeleteArticolo(int id)
         {
             var articolo = await _context.Articoli
                .FirstOrDefaultAsync(m => m.IdArticolo == id);
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-
+                       
             if (articolo == null)
             {
                 return NotFound();
@@ -129,7 +123,7 @@ namespace AuthSystem.Controllers.Api
             _context.Articoli.Remove(articolo);
             await _context.SaveChangesAsync();
 
-            return articolo;
+            return this.Ok(articolo);
         }
 
         private bool ArticoloExists(int id)
