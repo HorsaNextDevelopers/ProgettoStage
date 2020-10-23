@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +14,13 @@ namespace AuthSystem.Controllers.Api
     [ApiController]
     public class ArticoliApiController : ControllerBase
     {
+        private readonly NContext _context;
+
+        public ArticoliApiController(NContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/<ArticoliApiController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -26,10 +35,20 @@ namespace AuthSystem.Controllers.Api
             return "value";
         }
 
-        // POST api/<ArticoliApiController>
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        // POST api/<ArticoliApiController>
+        public async Task<IActionResult> Post([FromBody] Articolo articolo)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+                _context.Articoli.Add(articolo);
+                await _context.SaveChangesAsync();
+                return Ok(articolo);
         }
 
         // PUT api/<ArticoliApiController>/5

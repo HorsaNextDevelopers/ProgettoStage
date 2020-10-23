@@ -14,6 +14,7 @@ namespace AuthSystem.Models
     {
         
         [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdArticolo { get; set; }
         
         [Column(TypeName = "nvarchar(250)")]
