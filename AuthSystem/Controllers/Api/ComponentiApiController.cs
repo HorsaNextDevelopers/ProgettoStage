@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthSystem.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ComponentiApiController : ControllerBase
