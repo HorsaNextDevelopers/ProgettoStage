@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthSystem.Models;
+using AuthSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthSystem.Controllers.Api
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ComponentiApiController : ControllerBase
@@ -54,6 +56,24 @@ namespace AuthSystem.Controllers.Api
             }
 
             return this.Ok(componente.ToList());
+        }
+        [HttpGet]
+        [Route("GetDatiGrafico/{idComponente}")]
+        public IActionResult GetDatiGrafico(int idComponente)
+        {
+            var viewModel = new ChartComponentiModel();
+
+            var versamenti = _context.Versamenti.Where(c => c.IdComponente == idComponente).ToList();
+
+            var componente = _context.ComponentiArticolo.Single(c => c.IdComponente == idComponente);
+
+            viewModel.Labels = versamenti.Select(s => s.Data.ToShortDateString()).ToArray();
+
+            viewModel.Dataset = versamenti.Select(s => s.PezziBuoni == 0 ? 0 : Convert.ToInt32(s.TempoProd / (s.PezziBuoni + s.PezziDifettosi))).ToArray();
+
+            viewModel.TempoIdeale = Convert.ToInt32(componente.TempoProduzione);
+
+            return this.Ok(viewModel);
         }
 
         [HttpPost]

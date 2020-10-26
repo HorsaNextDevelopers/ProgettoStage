@@ -6,19 +6,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace AuthSystem.Controllers
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace AuthSystem.Controllers.Api
 {
     [Authorize]
-    public class GraficiComponentiController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GraficiComponentiApiController : ControllerBase
     {
 
         private readonly NContext _context;
 
-        public GraficiComponentiController(NContext context)
+        public GraficiComponentiApiController(NContext context)
         {
             _context = context;
         }
-
+        // GET: api/<GraficiComponentiApiController>
+        [HttpGet]
         public IActionResult Index()
         {
             var articoli = _context.Articoli.ToList();
@@ -27,9 +32,12 @@ namespace AuthSystem.Controllers
 
             viewModel.Articoli = new SelectList(articoli, "IdArticolo", "NomeArticolo");
 
-            return View(viewModel);
+            return this.Ok(viewModel);
         }
 
+        // GET api/<GraficiComponentiApiController>/5
+        [HttpGet]
+        [Route("GetComponenti/{idArticolo}")]
         public IActionResult GetComponenti(int idArticolo)
         {
             var componenti = _context.ComponentiArticolo.Where(c => c.IdArticolo == idArticolo).ToList();
@@ -37,6 +45,8 @@ namespace AuthSystem.Controllers
             return this.Ok(componenti);
         }
 
+        [HttpGet]
+        [Route("GetDatiGrafico/{idComponente}")]
         public IActionResult GetDatiGrafico(int idComponente)
         {
             var viewModel = new ChartComponentiModel();
