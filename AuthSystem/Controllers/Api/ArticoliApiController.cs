@@ -14,7 +14,6 @@ namespace AuthSystem.Controllers.Api
     [ApiController]
     public class ArticoliApiController : ControllerBase
     {
-
         private readonly NContext _context;
 
         public ArticoliApiController(NContext context)
