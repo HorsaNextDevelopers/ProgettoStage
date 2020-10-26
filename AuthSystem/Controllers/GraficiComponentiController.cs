@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AuthSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class GraficiComponentiController : Controller
     {
 
