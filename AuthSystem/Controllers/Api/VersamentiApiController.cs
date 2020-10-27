@@ -77,6 +77,7 @@ namespace AuthSystem.Controllers.Api
             _context.Entry(versamento).State = EntityState.Modified;
 
             try
+
             {
                 await _context.SaveChangesAsync();
             }
