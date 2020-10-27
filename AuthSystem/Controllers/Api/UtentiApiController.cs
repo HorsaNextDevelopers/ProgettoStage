@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthSystem.Controllers.Api
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UtentiApiController : ControllerBase
@@ -68,13 +68,16 @@ namespace AuthSystem.Controllers.Api
         public async Task<IActionResult> Post([FromBody] ApplicationUser utente)
         {
             ApplicationUser user = new ApplicationUser { UserName = utente.Email, Email = utente.Email, FirstName = utente.FirstName, LastName = utente.LastName };
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
+                return BadRequest(ModelState);
+            }
+           
                 _context.Add(utente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return Ok(utente);
+             
+            return this.Ok(utente);
         }
 
         // PUT api/<UtentiApiController>/5
@@ -111,7 +114,7 @@ namespace AuthSystem.Controllers.Api
                 return RedirectToAction(nameof(Index));
 
             }
-            return Ok(utente);
+            return this.Ok(utente);
         }
 
         // DELETE api/<UtentiApiController>/5
