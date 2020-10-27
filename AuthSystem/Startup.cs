@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AuthSystem.Areas.Identity.Data;
 using AuthSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace AuthSystem
 {
+    [Authorize]
     public class Startup
     {
         public Startup(IConfiguration configuration)

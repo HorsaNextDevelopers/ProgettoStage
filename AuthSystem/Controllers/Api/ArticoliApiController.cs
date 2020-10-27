@@ -62,7 +62,6 @@ namespace AuthSystem.Controllers.Api
 
 
         [HttpPost]
-        // POST api/<ArticoliApiController>
         public async Task<IActionResult> Post([FromBody] Articolo articolo)
         {
             if (!ModelState.IsValid)
