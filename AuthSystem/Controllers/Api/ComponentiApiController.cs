@@ -29,6 +29,7 @@ namespace AuthSystem.Controllers.Api
         public IEnumerable<ComponenteArticolo> Get()
         {
             return _context.ComponentiArticolo;
+
         }
 
         // GET api/<ComponentiApiController>/5
