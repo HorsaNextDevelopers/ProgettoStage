@@ -51,11 +51,9 @@ namespace AuthSystem.Controllers.Api
         {
             var stazioni = _context.Stazioni
                .Where(m => m.NomeStazione.ToLower().Contains(nome.ToLower()));
-<<<<<<< HEAD
+
+
             if (stazioni.Any())
-=======
-            if (stazione.Any())
->>>>>>> 26a052d... Mod
             {
                 return NotFound();
             }
@@ -113,15 +111,6 @@ namespace AuthSystem.Controllers.Api
             return NoContent();
         }
 
-<<<<<<< HEAD
-        private bool StazioneExists(int id)
-        {
-            return _context.Stazioni.Any(e => e.IdLinea == id);
-        }
-
-=======
-      
->>>>>>> 26a052d... Mod
         // DELETE api/<StazioneApiController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Stazione>> DeleteStazione(int id)
