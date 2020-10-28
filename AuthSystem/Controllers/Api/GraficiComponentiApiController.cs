@@ -22,19 +22,7 @@ namespace AuthSystem.Controllers.Api
         {
             _context = context;
         }
-        // GET: api/<GraficiComponentiApiController>
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var articoli = _context.Articoli.ToList();
-
-            var viewModel = new GraficoComponentiViewModel();
-
-            viewModel.Articoli = new SelectList(articoli, "IdArticolo", "NomeArticolo");
-
-            return this.Ok(viewModel);
-        }
-
+        
         // GET api/<GraficiComponentiApiController>/5
         [HttpGet]
         [Route("GetComponenti/{idArticolo}")]

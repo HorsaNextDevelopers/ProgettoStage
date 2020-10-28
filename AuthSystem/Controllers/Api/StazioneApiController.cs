@@ -49,14 +49,14 @@ namespace AuthSystem.Controllers.Api
         [Route("GetNomeStazione/{nome}")]
         public IActionResult GetNomeStazione(string nome)
         {
-            var stazione = _context.Stazioni
+            var stazioni = _context.Stazioni
                .Where(m => m.NomeStazione.ToLower().Contains(nome.ToLower()));
-            if (stazione == null)
+            if (stazioni.Any())
             {
                 return NotFound();
             }
 
-            return this.Ok(stazione.ToList());
+            return this.Ok(stazioni.ToList());
         }
 
         // POST api/<StazioneApiController>
@@ -111,7 +111,7 @@ namespace AuthSystem.Controllers.Api
 
         private bool StazioneExists(int id)
         {
-            throw new NotImplementedException();
+            return _context.Stazioni.Any(e => e.IdLinea == id);
         }
 
         // DELETE api/<StazioneApiController>/5

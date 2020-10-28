@@ -74,6 +74,7 @@ namespace AuthSystem.Controllers.Api
                 return BadRequest(ModelState);
             }
            
+           
                 _context.Add(utente);
                 await _context.SaveChangesAsync();
              
@@ -111,7 +112,7 @@ namespace AuthSystem.Controllers.Api
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+               
 
             }
             return this.Ok(utente);

@@ -115,7 +115,7 @@ namespace AuthSystem.Controllers.Api
 
         private bool VersamentoExists(int id)
         {
-            return _context.Articoli.Any(e => e.IdArticolo == id);
+            return _context.Versamenti.Any(e => e.IdVersamento == id);
         }
     }
 }
