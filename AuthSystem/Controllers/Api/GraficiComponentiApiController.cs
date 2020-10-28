@@ -22,7 +22,8 @@ namespace AuthSystem.Controllers.Api
         {
             _context = context;
         }
-        
+
+
         // GET api/<GraficiComponentiApiController>/5
         [HttpGet]
         [Route("GetComponenti/{idArticolo}")]

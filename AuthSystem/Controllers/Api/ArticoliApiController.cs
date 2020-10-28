@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthSystem.ApiModels;
 using AuthSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,14 @@ namespace AuthSystem.Controllers.Api
 
         // GET: api/<ArticoliApiController>
         [HttpGet]
-        public IEnumerable<Articolo> Get()
+        public IActionResult Get()
         {
-            return _context.Articoli;
+            return this.Ok( _context.Articoli.Select(a => new ArticoloApiModel
+            {
+                IdArticolo = a.IdArticolo,
+                NomeArticolo = a.NomeArticolo,
+                Descrizione = a.Descrizione
+            }));
         }
 
         // GET api/<ArticoliApiController>/5
@@ -42,7 +48,12 @@ namespace AuthSystem.Controllers.Api
             {
                 return NotFound();
             }
-            return this.Ok(articolo);
+            return this.Ok(new ArticoloApiModel
+            {
+                IdArticolo = articolo.IdArticolo,
+                NomeArticolo = articolo.NomeArticolo,
+                Descrizione = articolo.Descrizione
+            });
         }
 
         // GET api/<ArticoliApiController>/nome

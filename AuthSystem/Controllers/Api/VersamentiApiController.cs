@@ -33,7 +33,7 @@ namespace AuthSystem.Controllers.Api
         // GET api/<VersamentiApiController>/5
         [HttpGet]
         [Route("GetVersamento/{id}")]
-        public async Task<ActionResult<Versamento>> GetVersamento(int id)
+        public async Task<ActionResult<Versamento>> GetVersamento(int id) 
         {
             var versamento = await _context.Versamenti
                 .SingleOrDefaultAsync(m => m.IdVersamento == id);

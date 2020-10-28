@@ -49,7 +49,7 @@ namespace AuthSystem.Controllers.Api
         {
             var componente = _context.ComponentiArticolo
                .Where(m => m.NomeComponente.ToLower().Contains(nome.ToLower()));
-            if (componente == null)
+            if (componente.Any())
             {
                 return NotFound();
             }
