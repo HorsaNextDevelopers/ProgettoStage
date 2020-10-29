@@ -43,6 +43,18 @@ namespace AuthSystem.Controllers.Api
             }
             return this.Ok(componente);
         }
+
+        [HttpGet]
+        [Route("GetComponenteByArticolo/{idArticolo}")]
+        public IActionResult GetComponenteByArticolo(int idArticolo)
+        {
+            var componenti = _context.ComponentiArticolo.Where(m => m.IdArticolo == idArticolo);
+
+            return this.Ok(componenti);
+        }
+
+
+
         [HttpGet]
         [Route("GetNomeComponente/{nome}")]
         public IActionResult GetNomeComponente(string nome)
