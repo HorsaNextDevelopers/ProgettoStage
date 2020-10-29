@@ -73,14 +73,18 @@ namespace AuthSystem.Controllers.Api
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Articolo articolo)
+        public async Task<IActionResult> Post([FromBody] ArticoloApiModel articolo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            articolo.IdArticolo = 0;
-            _context.Articoli.Add(articolo);
+          
+            _context.Articoli.Add(new Articolo 
+            { 
+                Descrizione = articolo.Descrizione,
+                NomeArticolo = articolo.NomeArticolo,
+            });
             await _context.SaveChangesAsync();
             return Ok(articolo);
         }
