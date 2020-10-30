@@ -25,6 +25,8 @@ namespace AuthSystem.Models
         public DbSet<ComponenteArticolo> ComponentiArticolo { get; set; }
         public DbSet<Linea> Linee { get; set; }
         public DbSet<Stazione> Stazioni { get; set; }
+        public DbSet<Prenotazione> Prenotazioni { get; set; }
+        public DbSet<Postazione> Postazioni { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

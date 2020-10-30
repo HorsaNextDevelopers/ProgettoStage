@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthSystem.Migrations
 {
-    public partial class prova1 : Migration
+    public partial class Prova : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,6 +73,19 @@ namespace AuthSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Linee", x => x.IdLinea);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Postazioni",
+                columns: table => new
+                {
+                    IdPostazione = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomePostazione = table.Column<string>(type: "nvarchar(250)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Postazioni", x => x.IdPostazione);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,6 +216,33 @@ namespace AuthSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Prenotazioni",
+                columns: table => new
+                {
+                    IdPrenotazione = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Data = table.Column<DateTime>(nullable: false),
+                    IdAspNetUsers = table.Column<string>(maxLength: 450, nullable: true),
+                    IdPostazione = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prenotazioni", x => x.IdPrenotazione);
+                    table.ForeignKey(
+                        name: "FK_Prenotazioni_AspNetUsers_IdAspNetUsers",
+                        column: x => x.IdAspNetUsers,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Prenotazioni_Postazioni_IdPostazione",
+                        column: x => x.IdPostazione,
+                        principalTable: "Postazioni",
+                        principalColumn: "IdPostazione",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stazioni",
                 columns: table => new
                 {
@@ -269,12 +309,17 @@ namespace AuthSystem.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "361ccbda-bc37-4a75-a1c4-7f81f1395f49", "Admin", "Admin" });
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "bc74e453-ea34-4353-9096-7b8bb44cdfa6", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1", "0d19ea4b-311f-4f2b-b215-1324988393c4", "Normal", "NORMAL" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "14952700-feb3-4502-8c79-dc68e2003bd0", "admin@admin.com", true, null, null, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEFYJrsBPJwj9qxKY6Dn79FRCIdeFdYl2zI8UuJnIUoEm/NMxpRObAhfi6J01kL5S0Q==", null, false, "", false, "admin@admin.com" });
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "b52b67f5-1266-486d-bba6-0695342d8020", "admin@admin.com", true, null, null, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEHuWdjciuPqXKwaR7ELePJTI6tCXZgxYNf+GhC/+8DN69cAvxcTB900i+Q8HUA+CFg==", null, false, "", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -326,6 +371,16 @@ namespace AuthSystem.Migrations
                 column: "IdArticolo");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Prenotazioni_IdAspNetUsers",
+                table: "Prenotazioni",
+                column: "IdAspNetUsers");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prenotazioni_IdPostazione",
+                table: "Prenotazioni",
+                column: "IdPostazione");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stazioni_ComponentiArticoloIdComponente",
                 table: "Stazioni",
                 column: "ComponentiArticoloIdComponente");
@@ -369,10 +424,16 @@ namespace AuthSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Prenotazioni");
+
+            migrationBuilder.DropTable(
                 name: "Versamenti");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Postazioni");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

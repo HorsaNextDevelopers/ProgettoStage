@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20200923145030_prova1")]
-    partial class prova1
+    [Migration("20201030104059_Prova")]
+    partial class Prova
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,13 +96,13 @@ namespace AuthSystem.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14952700-feb3-4502-8c79-dc68e2003bd0",
+                            ConcurrencyStamp = "b52b67f5-1266-486d-bba6-0695342d8020",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFYJrsBPJwj9qxKY6Dn79FRCIdeFdYl2zI8UuJnIUoEm/NMxpRObAhfi6J01kL5S0Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHuWdjciuPqXKwaR7ELePJTI6tCXZgxYNf+GhC/+8DN69cAvxcTB900i+Q8HUA+CFg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -168,6 +168,48 @@ namespace AuthSystem.Migrations
                     b.HasKey("IdLinea");
 
                     b.ToTable("Linee");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Postazione", b =>
+                {
+                    b.Property<int>("IdPostazione")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomePostazione")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("IdPostazione");
+
+                    b.ToTable("Postazioni");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Prenotazione", b =>
+                {
+                    b.Property<int>("IdPrenotazione")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdAspNetUsers")
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.Property<int>("IdPostazione")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdPrenotazione");
+
+                    b.HasIndex("IdAspNetUsers");
+
+                    b.HasIndex("IdPostazione");
+
+                    b.ToTable("Prenotazioni");
                 });
 
             modelBuilder.Entity("AuthSystem.Models.Stazione", b =>
@@ -268,9 +310,16 @@ namespace AuthSystem.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "361ccbda-bc37-4a75-a1c4-7f81f1395f49",
+                            ConcurrencyStamp = "bc74e453-ea34-4353-9096-7b8bb44cdfa6",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1",
+                            ConcurrencyStamp = "0d19ea4b-311f-4f2b-b215-1324988393c4",
+                            Name = "Normal",
+                            NormalizedName = "NORMAL"
                         });
                 });
 
@@ -394,6 +443,19 @@ namespace AuthSystem.Migrations
                     b.HasOne("AuthSystem.Models.Articolo", "Articoli")
                         .WithMany("ComponentiArticolo")
                         .HasForeignKey("IdArticolo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Prenotazione", b =>
+                {
+                    b.HasOne("AuthSystem.Areas.Identity.Data.ApplicationUser", "AspNetUsers")
+                        .WithMany()
+                        .HasForeignKey("IdAspNetUsers");
+
+                    b.HasOne("AuthSystem.Models.Postazione", "Postazioni")
+                        .WithMany()
+                        .HasForeignKey("IdPostazione")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
