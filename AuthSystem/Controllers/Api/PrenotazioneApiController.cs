@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
@@ -44,7 +42,7 @@ namespace AuthSystem.Controllers
         // PUT: api/PrenotazioneApi/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public async Task<IActionResult> PutPrenotazione(int id, Prenotazione prenotazione)
         {
             if (id != prenotazione.IdPrenotazione)
@@ -71,7 +69,7 @@ namespace AuthSystem.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
         // POST: api/PrenotazioneApi
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
