@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20201030104059_Prova")]
-    partial class Prova
+    [Migration("20201030105531_prova")]
+    partial class prova
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,13 +96,13 @@ namespace AuthSystem.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b52b67f5-1266-486d-bba6-0695342d8020",
+                            ConcurrencyStamp = "aab9af04-1ca9-44bf-9746-781e62aac12c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHuWdjciuPqXKwaR7ELePJTI6tCXZgxYNf+GhC/+8DN69cAvxcTB900i+Q8HUA+CFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEAm5zJ6CeFHlzaZELGiOgD+Uh1L64wqsUlRVCi5GdiuBioYDu7e23h/aHyPKFktcA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -310,14 +310,14 @@ namespace AuthSystem.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "bc74e453-ea34-4353-9096-7b8bb44cdfa6",
+                            ConcurrencyStamp = "76102d66-aa1c-4b98-9f96-26ab58543354",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1",
-                            ConcurrencyStamp = "0d19ea4b-311f-4f2b-b215-1324988393c4",
+                            ConcurrencyStamp = "92a67af1-eb91-4499-9f52-8dc0ee24e3c8",
                             Name = "Normal",
                             NormalizedName = "NORMAL"
                         });
