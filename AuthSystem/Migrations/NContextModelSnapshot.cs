@@ -94,17 +94,17 @@ namespace AuthSystem.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ede5b70e-ca87-47c6-a499-7371446e37db",
+                            ConcurrencyStamp = "aab9af04-1ca9-44bf-9746-781e62aac12c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMQkaXDIUDcFL/vSjEKYXhLtq8yncR8n3g4gXxEI5+7CVDKIXBAGYNbP/56PsWandw==",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEAm5zJ6CeFHlzaZELGiOgD+Uh1L64wqsUlRVCi5GdiuBioYDu7e23h/aHyPKFktcA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "Admin"
+                            UserName = "admin@admin.com"
                         });
                 });
 
@@ -166,6 +166,48 @@ namespace AuthSystem.Migrations
                     b.HasKey("IdLinea");
 
                     b.ToTable("Linee");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Postazione", b =>
+                {
+                    b.Property<int>("IdPostazione")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomePostazione")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("IdPostazione");
+
+                    b.ToTable("Postazioni");
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Prenotazione", b =>
+                {
+                    b.Property<int>("IdPrenotazione")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdAspNetUsers")
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.Property<int>("IdPostazione")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdPrenotazione");
+
+                    b.HasIndex("IdAspNetUsers");
+
+                    b.HasIndex("IdPostazione");
+
+                    b.ToTable("Prenotazioni");
                 });
 
             modelBuilder.Entity("AuthSystem.Models.Stazione", b =>
@@ -266,9 +308,16 @@ namespace AuthSystem.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "2593d3af-f250-41b1-a537-c7a6f6c7b39f",
+                            ConcurrencyStamp = "76102d66-aa1c-4b98-9f96-26ab58543354",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1",
+                            ConcurrencyStamp = "92a67af1-eb91-4499-9f52-8dc0ee24e3c8",
+                            Name = "Normal",
+                            NormalizedName = "NORMAL"
                         });
                 });
 
@@ -392,6 +441,19 @@ namespace AuthSystem.Migrations
                     b.HasOne("AuthSystem.Models.Articolo", "Articoli")
                         .WithMany("ComponentiArticolo")
                         .HasForeignKey("IdArticolo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthSystem.Models.Prenotazione", b =>
+                {
+                    b.HasOne("AuthSystem.Areas.Identity.Data.ApplicationUser", "AspNetUsers")
+                        .WithMany()
+                        .HasForeignKey("IdAspNetUsers");
+
+                    b.HasOne("AuthSystem.Models.Postazione", "Postazioni")
+                        .WithMany()
+                        .HasForeignKey("IdPostazione")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

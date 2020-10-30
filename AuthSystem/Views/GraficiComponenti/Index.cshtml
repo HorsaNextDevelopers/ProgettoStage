@@ -53,7 +53,7 @@
                     display: true,
                     text: ''
                 },
-                 tooltips: {
+                tooltips: {
                     mode: 'index',
                     intersect: false
                 },
@@ -93,7 +93,7 @@
     function getComponenti() {
         var idArticolo = $("#selectArticoli").val();
         $.ajax({
-            url: "GraficiComponenti/GetComponenti?idArticolo=" + idArticolo
+            url: "api/ComponentiApi/GetComponenteByArticolo/" + idArticolo
         }).done(function (result) {
             $("#selectComponenti").find('option').remove();
             for (i = 0; i < result.length; i++) {
@@ -105,7 +105,7 @@
     function getDatiGrafico() {
         var idComponente = $("#selectComponenti").val();
         $.ajax({
-            url: "GraficiComponenti/GetDatiGrafico?idComponente=" + idComponente
+            url: "api/GraficiComponentiApi/GetDatiGrafico/" + idComponente
         }).done(function (result) {
             renderGrafico(result);
         });

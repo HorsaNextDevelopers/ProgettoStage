@@ -1,27 +1,30 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthSystem.Models;
 
 namespace AuthSystem.Controllers
 {
-    public class LineaController : Controller
+    public class PostazioneController : Controller
     {
         private readonly NContext _context;
 
-        public LineaController(NContext context)
+        public PostazioneController(NContext context)
         {
             _context = context;
         }
 
-        // GET: Linea
+        // GET: Postazione
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Linee.ToListAsync());
+            return View(await _context.Postazioni.ToListAsync());
         }
 
-        // GET: Linea/Details/5
+        // GET: Postazione/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -29,39 +32,39 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var linea = await _context.Linee
-                .FirstOrDefaultAsync(m => m.IdLinea == id);
-            if (linea == null)
+            var postazione = await _context.Postazioni
+                .FirstOrDefaultAsync(m => m.IdPostazione == id);
+            if (postazione == null)
             {
                 return NotFound();
             }
 
-            return View(linea);
+            return View(postazione);
         }
 
-        // GET: Linea/Create
+        // GET: Postazione/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Linea/Create
+        // POST: Postazione/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdLinea,NomeLinea")] Linea linea)
+        public async Task<IActionResult> Create([Bind("IdPostazione,NomePostazione")] Postazione postazione)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(linea);
+                _context.Add(postazione);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(linea);
+            return View(postazione);
         }
 
-        // GET: Linea/Edit/5
+        // GET: Postazione/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -69,22 +72,22 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var linea = await _context.Linee.FindAsync(id);
-            if (linea == null)
+            var postazione = await _context.Postazioni.FindAsync(id);
+            if (postazione == null)
             {
                 return NotFound();
             }
-            return View(linea);
+            return View(postazione);
         }
 
-        // POST: Linea/Edit/5
+        // POST: Postazione/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdLinea,NomeLinea")] Linea linea)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPostazione,NomePostazione")] Postazione postazione)
         {
-            if (id != linea.IdLinea)
+            if (id != postazione.IdPostazione)
             {
                 return NotFound();
             }
@@ -93,12 +96,12 @@ namespace AuthSystem.Controllers
             {
                 try
                 {
-                    _context.Update(linea);
+                    _context.Update(postazione);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LineaExists(linea.IdLinea))
+                    if (!PostazioneExists(postazione.IdPostazione))
                     {
                         return NotFound();
                     }
@@ -109,10 +112,10 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(linea);
+            return View(postazione);
         }
 
-        // GET: Linea/Delete/5
+        // GET: Postazione/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -120,30 +123,30 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
 
-            var linea = await _context.Linee
-                .FirstOrDefaultAsync(m => m.IdLinea == id);
-            if (linea == null)
+            var postazione = await _context.Postazioni
+                .FirstOrDefaultAsync(m => m.IdPostazione == id);
+            if (postazione == null)
             {
                 return NotFound();
             }
 
-            return View(linea);
+            return View(postazione);
         }
 
-        // POST: Linea/Delete/5
+        // POST: Postazione/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var linea = await _context.Linee.FindAsync(id);
-            _context.Linee.Remove(linea);
+            var postazione = await _context.Postazioni.FindAsync(id);
+            _context.Postazioni.Remove(postazione);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LineaExists(int id)
+        private bool PostazioneExists(int id)
         {
-            return _context.Linee.Any(e => e.IdLinea == id);
+            return _context.Postazioni.Any(e => e.IdPostazione == id);
         }
     }
 }
