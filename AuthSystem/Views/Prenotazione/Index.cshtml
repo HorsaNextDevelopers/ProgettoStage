@@ -4,7 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<table class="table">
+    <style>
+        .container {
+            position: relative;
+            width: 100%;
+            /*max-width: 400px;*/
+        }
+
+            .container img {
+                width: 100%;
+                height: auto;
+            }
+
+            .container #Posto1 {
+                position: absolute;
+                top: 15%;
+                left: 14%;
+                transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                background-color: #555;
+                color: white;
+                font-size: 10px;
+                padding: 6px 12px;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+                text-align: center;
+                background-color: black;
+            }
+
+            .container #Posto2 {
+                position: absolute;
+                top: 15%;
+                left: 25%;
+                transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                background-color: #555;
+                color: white;
+                font-size: 10px;
+                padding: 6px 12px;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+                text-align: center;
+                background-color: black;
+            }
+    </style>
+
+    <h1>Seleziona il posto da prenotare: </h1>
+    <br />
+
+    <div class="container">
+        <img src="~/Horsa_office.jpg" alt="Snow" style="width:1100px; height:700px">
+
+        
+            <button id="Posto1" class="btn">1</button>
+            <button id="Posto2" class="btn">2</button>
+    </div>
+        
+    
+
+@*</body>
+</html>*@
+
+<!--<table class="table">
     <thead>
         <tr>
             <th>
@@ -15,28 +78,29 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Postazioni)
-            </th>
-            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Prenotzione</a> </th>
-        </tr>
+            </th>-->
+            @*<th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Prenotzione</a> </th>*@
+        <!--</tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Postazioni.NomePostazione)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPrenotazione"><i class="fa fa-marker fa-lg"></i></a> |
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postazioni.NomePostazione)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdPrenotazione"><i class="fa fa-marker fa-lg"></i></a> |
 
-                <a asp-action="Delete" asp-route-id="@item.IdPrenotazione" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
-            </td>
-        </tr>
-}
+                    <a asp-action="Delete" asp-route-id="@item.IdPrenotazione" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
-</table>
+</table>-->
