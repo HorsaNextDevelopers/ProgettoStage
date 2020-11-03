@@ -15,7 +15,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Postazioni)
             </th>
-            <th></th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Prenotazioni</a> </th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Postazioni.Descrizione)
+                @Html.DisplayFor(modelItem => item.Postazioni.NomePostazione)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdPrenotazione">Edit</a> |

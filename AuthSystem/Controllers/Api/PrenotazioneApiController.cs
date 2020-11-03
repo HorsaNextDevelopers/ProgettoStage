@@ -68,7 +68,7 @@ namespace AuthSystem.Controllers.Api
             {
                 return NotFound();
             }
-            return this.Ok(prenotazione.ToList());
+            return this.Ok(prenotazione);
         }
 
         // PUT api/<LineeApiController>/5

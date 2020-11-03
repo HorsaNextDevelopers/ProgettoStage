@@ -49,7 +49,7 @@ namespace AuthSystem.Controllers
         public IActionResult Create()
         {
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email");
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione");
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace AuthSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
@@ -85,7 +85,7 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
@@ -122,7 +122,7 @@ namespace AuthSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
