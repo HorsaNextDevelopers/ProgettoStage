@@ -10,6 +10,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NomePostazione)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descrizione)
+            </th>
             <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Postazione</a> </th>
         </tr>
     </thead>
@@ -20,9 +23,12 @@
                 @Html.DisplayFor(modelItem => item.NomePostazione)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPostazione"><i class="fa fa-marker fa-lg"></i></a> |
-
-                <a asp-action="Delete" asp-route-id="@item.IdPostazione" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i></a>
+                @Html.DisplayFor(modelItem => item.Descrizione)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPostazione">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdPostazione">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPostazione">Delete</a>
             </td>
         </tr>
 }

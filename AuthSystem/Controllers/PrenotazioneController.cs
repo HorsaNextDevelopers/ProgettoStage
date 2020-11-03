@@ -18,15 +18,14 @@ namespace AuthSystem.Controllers
             _context = context;
         }
 
-        // GET: Prenotaziones
+        // GET: Prenotazione
         public async Task<IActionResult> Index()
         {
             var nContext = _context.Prenotazioni.Include(p => p.AspNetUsers).Include(p => p.Postazioni);
             return View(await nContext.ToListAsync());
         }
 
-        // GET: Prenotaziones/Details/5
-
+        // GET: Prenotazione/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,15 +45,15 @@ namespace AuthSystem.Controllers
             return View(prenotazione);
         }
 
-        // GET: Prenotaziones/Create
+        // GET: Prenotazione/Create
         public IActionResult Create()
         {
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email");
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione");
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione");
             return View();
         }
 
-        // POST: Prenotaziones/Create
+        // POST: Prenotazione/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -68,11 +67,11 @@ namespace AuthSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
-        // GET: Prenotaziones/Edit/5
+        // GET: Prenotazione/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,11 +85,11 @@ namespace AuthSystem.Controllers
                 return NotFound();
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
-        // POST: Prenotaziones/Edit/5
+        // POST: Prenotazione/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -123,11 +122,11 @@ namespace AuthSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Email", prenotazione.IdAspNetUsers);
-            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "NomePostazione", prenotazione.IdPostazione);
+            ViewData["IdPostazione"] = new SelectList(_context.Postazioni, "IdPostazione", "Descrizione", prenotazione.IdPostazione);
             return View(prenotazione);
         }
 
-        // GET: Prenotaziones/Delete/5
+        // GET: Prenotazione/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,7 +146,7 @@ namespace AuthSystem.Controllers
             return View(prenotazione);
         }
 
-        // POST: Prenotaziones/Delete/5
+        // POST: Prenotazione/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

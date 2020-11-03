@@ -19,5 +19,10 @@ namespace AuthSystem.Models
         [DisplayName("Postazione")]
         public string NomePostazione { get; set; }
 
+        [Column(TypeName = "nvarchar(250)")]
+        [Required(ErrorMessage = "Immettere la descrizione")]
+        [DisplayName("Descrizione")]
+        public string Descrizione { get; set; }
+
     }
 }
