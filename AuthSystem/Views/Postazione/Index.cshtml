@@ -4,11 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -18,7 +13,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Descrizione)
             </th>
-            <th></th>
+            <th> <a asp-action="Create" class="btn btn-outline-success "><i class="far fa-plus-square"></i>Postazione</a> </th>
         </tr>
     </thead>
     <tbody>
