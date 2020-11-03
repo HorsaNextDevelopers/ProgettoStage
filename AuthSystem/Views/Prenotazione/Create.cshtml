@@ -8,16 +8,19 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" float:right>
+            <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
                 <input asp-for="Data" class="form-control" id="SData" />
                 <span asp-validation-for="Data" class="text-danger"></span>
+                <div class="form-group">
+                    <input type="button" value="Verifica disponibilità" class="btn btn-primary" onclick="GetDataPrenotazione()" />
+                </div>
             </div>
 
-            <div>
-                <label asp-for="IdAspNetUsers" class="control-label"></label>
-                <select asp-for="IdAspNetUsers" class="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
-            </div>
+            @*<div>
+            <label asp-for="IdAspNetUsers" class="control-label"></label>
+            <select asp-for="IdAspNetUsers" class="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
+        </div>*@
             <h3>Seleziona il posto da prenotare: </h3>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="904.437" height="612.582" xlink="http://www.w3.org/1999/xlink" style="position:relative;overflow:hidden;" viewBox="60.639 34.752 904.437 612.582">
                 <defs />
@@ -95,43 +98,17 @@
                 <input type="submit" value="Prenota" class="btn btn-primary" />
             </div>
 
-
+            <script>
+                $('#Posto4').on("click", function() {
+                    $('#Posto4').css({ fill: "#ff0000" });
+                });
+            </script>
 
         </form>
     </div>
 </div>
 
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-<script>
-
-    $(document).ready(function () {
-        getPrenotazione();
-
-        $("#SData").change(function () {
-            getPrenotazione();
-        });
-
-        function getPrenotazione() {
-            var id = $("#SData").val();
-            $.ajax({
-                url: "api/PrenotazioneApi/getPrenotazione/" + id
-            }).done(function (result) {
-                $("#Npostazione").find('option').remove();
-
-                for (i = 0; i < result.length; i++) {
-                    $("#Npostazione").append('<option value="' + result[i].IdPostazione + '">' + result[i].NomePostazione + '</option>');
-                }
-            });
-        }
-        //function Control() {
-        //    var id = $("#Npostazione").val();
-        //    $.ajax({
-        //        url: "api/PrenotazioneApi/PutPrenotazione/" + id
-        //    }).done(function (result) {
-
-        //    });
-
-    }
-</script>
