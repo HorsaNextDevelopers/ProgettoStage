@@ -37,6 +37,7 @@ namespace AuthSystem.Models
             // any guid, but nothing is against to use the same one
             const string ROLE_ID = ADMIN_ID;
 
+            //Ruolo Admin
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole
                 {
@@ -45,6 +46,7 @@ namespace AuthSystem.Models
                     NormalizedName = "ADMIN"
                 });
 
+            //Ruolo Normale
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole
                 {
@@ -54,8 +56,8 @@ namespace AuthSystem.Models
 
                 });
 
+            //Credenziali di accesso Admin
             var hasher = new PasswordHasher<ApplicationUser>();
-
             var adminUser = new ApplicationUser
             {
                 Id = ADMIN_ID,
@@ -67,9 +69,9 @@ namespace AuthSystem.Models
 
                 SecurityStamp = string.Empty
             };
-
             adminUser.PasswordHash = hasher.HashPassword(adminUser, "Horsa123@");
 
+            //Inserimento nel db
             builder.Entity<ApplicationUser>().HasData(adminUser);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
@@ -78,6 +80,9 @@ namespace AuthSystem.Models
                 RoleId = ROLE_ID,
                 UserId = ADMIN_ID
             });
+
+            //Posti in ufficio
+
         }
 
     }
