@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AuthSystem.ApiModel;
 using AuthSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,30 +53,52 @@ namespace AuthSystem.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Prenotazione prenotazione)
         {
-            if (!ModelState.IsValid)
+
+            var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var prenotazioneEsistente = _context.Prenotazioni.Any(p => p.Data == prenotazione.Data && p.IdPostazione == 1);
+
+            var dataes = _context.Prenotazioni.Any(p => p.Data == prenotazione.Data && p.IdAspNetUsers == userid);
+
+            if (!dataes)
             {
-                return BadRequest(ModelState);
+                prenotazione.IdPrenotazione = 0;
+                _context.Prenotazioni.Add(prenotazione);
+                await _context.SaveChangesAsync();
+                return Ok(prenotazione);
             }
-            prenotazione.IdPrenotazione = 0;
-            _context.Prenotazioni.Add(prenotazione);
-            await _context.SaveChangesAsync();
-            return Ok(prenotazione);
+
+
+            if (!prenotazioneEsistente)
+            {
+                prenotazione.IdPrenotazione = 0;
+                _context.Prenotazioni.Add(prenotazione);
+                await _context.SaveChangesAsync();
+                return Ok(prenotazione);
+            }
+           
+            return Ok(new ApiResult<Prenotazione>()
+            {
+                Ok = true,
+                DataResult = prenotazione,
+                Message = "tutto bene"
+            });
+            return Ok(new { ok = false, message="prenotazione esistente"});
         }
 
         [HttpGet]
-        [Route("GetDataPrenotazione/{Data}")]
+        [Route("GetDataPrenotazione/{data}")]
         public IActionResult GetDataPrenotazione(DateTime data)
         {
             var prenotazione = _context.Prenotazioni.Where(m => m.Data == data).ToList();
-            if (prenotazione == null)
-            {
-                return NotFound();
-            }
+
+           // var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return this.Ok(prenotazione.ToList());
         }
 
         // PUT api/<LineeApiController>/5
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Prenotazione prenotazione)
         {
             if (!ModelState.IsValid)
@@ -103,14 +129,17 @@ namespace AuthSystem.Controllers.Api
             }
 
             return this.Ok(prenotazione);
-        }
+        }*/
 
         // DELETE api/<LineeApiController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Prenotazione>> Delete(int id)
         {
             var prenotazione = await _context.Prenotazioni.
-                FirstOrDefaultAsync(m => m.IdPrenotazione == id);
+                FirstOrDefaultAsync(m => m.IdPrenotazione == id );
+
+           //&& m.IdAspNetUsers == this.User
+
 
             if (prenotazione == null)
             {

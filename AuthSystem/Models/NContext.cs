@@ -87,7 +87,6 @@ namespace AuthSystem.Models
                 IdPostazione = 1,
                 NomePostazione = "Posto1",
                 Descrizione = "Blocco in alto: posto in alto a sinistra"
-
             };
 
             builder.Entity<Postazione>().HasData(Posto1);
@@ -137,7 +136,6 @@ namespace AuthSystem.Models
                 IdPostazione = 6,
                 NomePostazione = "Posto6",
                 Descrizione = "Blocco in alto: posto in basso a sinistra"
-
             };
 
             builder.Entity<Postazione>().HasData(Posto6);
