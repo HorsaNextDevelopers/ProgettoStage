@@ -51,50 +51,76 @@ namespace AuthSystem.Controllers.Api
 
         // POST api/<LineeApiController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Prenotazione prenotazione)
+        public async Task<IActionResult> Post(DateTime data, string nomePostazione)
         {
+            var postazioneScelta = _context.Postazioni.SingleOrDefault(p => p.NomePostazione.Equals(nomePostazione));
+
+            if (postazioneScelta == null)
+            {
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "Postazione inesistente!"
+                });
+            }
 
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var prenotazioneEsistente = _context.Prenotazioni.Any(p => p.Data == prenotazione.Data && p.IdPostazione == 1);
+            var prenotazioneEsistente = _context.Prenotazioni.Any(p => p.Data == data && p.IdPostazione == postazioneScelta.IdPostazione);
 
-            var dataes = _context.Prenotazioni.Any(p => p.Data == prenotazione.Data && p.IdAspNetUsers == userid);
-
-            if (!dataes)
+            if (prenotazioneEsistente)
             {
-                prenotazione.IdPrenotazione = 0;
-                _context.Prenotazioni.Add(prenotazione);
-                await _context.SaveChangesAsync();
-                return Ok(prenotazione);
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "qualcuno ti ha rubato il posto"
+                });
             }
 
+            var dataes = _context.Prenotazioni.Any(p => p.Data == data && p.IdAspNetUsers == userid);
 
-            if (!prenotazioneEsistente)
+            if (dataes)
             {
-                prenotazione.IdPrenotazione = 0;
-                _context.Prenotazioni.Add(prenotazione);
-                await _context.SaveChangesAsync();
-                return Ok(prenotazione);
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "Hai già preso un altro posto"
+                });
             }
-           
+
+            var prenotazione = new Prenotazione
+            {
+                IdAspNetUsers = userid,
+                Data = data,
+                IdPostazione = postazioneScelta.IdPostazione,
+                IdPrenotazione = 0
+            };
+
+            _context.Prenotazioni.Add(prenotazione);
+            await _context.SaveChangesAsync();
             return Ok(new ApiResult<Prenotazione>()
             {
                 Ok = true,
-                DataResult = prenotazione,
-                Message = "tutto bene"
+                DataResult = prenotazione
             });
-            return Ok(new { ok = false, message="prenotazione esistente"});
         }
 
         [HttpGet]
         [Route("GetDataPrenotazione/{data}")]
         public IActionResult GetDataPrenotazione(DateTime data)
         {
-            var prenotazione = _context.Prenotazioni.Where(m => m.Data == data).ToList();
+            var prenotazione = _context.Prenotazioni.Where(m => m.Data == data)
+                .Include(p => p.Postazioni)
+                .ToList();
 
-           // var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return this.Ok(prenotazione.ToList());
+            return this.Ok(prenotazione.Select(p => new
+            {
+                p.Postazioni.NomePostazione,
+                p.Data,
+                sonoIo = p.IdAspNetUsers.Equals(userid)
+            }).ToList());
         }
 
         // PUT api/<LineeApiController>/5
@@ -136,9 +162,9 @@ namespace AuthSystem.Controllers.Api
         public async Task<ActionResult<Prenotazione>> Delete(int id)
         {
             var prenotazione = await _context.Prenotazioni.
-                FirstOrDefaultAsync(m => m.IdPrenotazione == id );
+                FirstOrDefaultAsync(m => m.IdPrenotazione == id);
 
-           //&& m.IdAspNetUsers == this.User
+            //&& m.IdAspNetUsers == this.User
 
 
             if (prenotazione == null)

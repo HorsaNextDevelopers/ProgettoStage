@@ -7,40 +7,19 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdAspNetUsers" class="control-label"></label>
-                <select asp-for="IdAspNetUsers" class="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdPostazione" class="control-label"></label>
-                <select asp-for="IdPostazione" class="form-control" asp-items="ViewBag.IdPostazione"></select>
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Crea" class="btn btn-primary" />
-            </div>
+           
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
                 <input asp-for="Data" class="form-control" id="SelectData" />
                 <span asp-validation-for="Data" class="text-danger"></span>
-
-                <div class="form-group">
-                    <input type="button" value="Verifica disponibilità" class="btn btn-primary" onclick="PrenotazioneByData()" />
-                </div>
             </div>
 
             @*<div>
-            <label asp-for="IdAspNetUsers" class="control-label"></label>
-            <select asp-for="IdAspNetUsers" class="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
-        </div>*@
+                    <label asp-for="IdAspNetUsers" class="control-label"></label>
+                    <select asp-for="IdAspNetUsers" class="form-control" asp-items="ViewBag.IdAspNetUsers"></select>
+                </div>*@
             <h3>Seleziona il posto da prenotare: </h3>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="904.437" height="612.582" xlink="http://www.w3.org/1999/xlink" style="position:relative;overflow:hidden;" viewBox="60.639 34.752 904.437 612.582">
                 <defs />
@@ -112,18 +91,6 @@
                     <g width="31" height="28" transform="scale(1,1) translate(327.361,538.681)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#00B050" fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto16" width="31" height="28" /></g></g>
                 </g>
             </svg>
-
-            <div class="form-group">
-
-                <input type="submit" value="Prenota" class="btn btn-primary" />
-            </div>
-
-            <script>
-                $('#Posto4').on("click", function () {
-                    $('#Posto4').css({ fill: "#ff0000" });
-                });
-            </script>
-
         </form>
     </div>
 </div>
@@ -136,46 +103,77 @@
 
 <script>
     $(document).ready(function () {
-        //PrenotazioneByData();
+        
 
         $("#SelectData").change(function () {
             PrenotazioneByData();
         });
 
-        $('rect[id^ = "Post"]').on("click", function () {
-            //chiama il post della prenotazione
-        });
+        //$('rect[id^="Post"]').on("click", function () {
+        //    //chiama il post della prenotazione
+        //    PrenotaPosto();
+        //});
 
+        $('rect[id^="Post"]').on("click", function () {
+            $//(this).css({ fill: "#ff0000" });
+            //console.log($(this).attr('id'));
+            // chiama il post della prenotazione.
+            console.log($(this).attr('id'));
+            Prenota($(this).attr('id'));
+        });
 
     });
 
-        function PrenotazioneByData() {
-            var data = $("#SelectData").val();
-            $.ajax({
-                url: "api/PrenotazioneApi/GetDataPrenotazione/" + data
-            }).done(function (result) {
-                $('#Posto1').css({ fill: "#ff0000" });
+    //function PrenotaPosto() {
+    //    var prenotazione = $(this).val();
+    //    $.ajax({
+    //        url: "api/PrenotazioneApi/Post/" + prenotazione
+    //    }).done(function (result) {
+    //        this.css({
+    //            fill: "#ff0000"
+    //   });
+    //http://localhost:45698/api/PrenotazioneApi?data=2020-11-04&nomePostazione=Posto2
+    function Prenota(nomePostazione) {
+        var data = $("#SelectData").val();
+        $.ajax({
+            type: 'post',
+            url: "/api/PrenotazioneApi?data=" + data + "&nomePostazione=" + nomePostazione
+        }).done(function (result) {
+            if (result.ok) {
+                PrenotazioneByData();
+                alert('Confermare prenotazione?');
+            } else {
+                alert(result.message);
+            }
+        });
+    }
 
-                if (result.ok) {
 
-                } else {
-                    alert(result.message);
-                }
+    function PrenotazioneByData() {
+        var data = $("#SelectData").val();
+        $.ajax({
+            url: "/api/PrenotazioneApi/GetDataPrenotazione/" + data
+        }).done(function (result) {
+            //$('#Posto1').css({ fill: "#ff0000" });
 
-                //$('#' + prenotaz.postazione).css({ fill: "#ff0000" });
+            //if (result.ok) {
 
-                for (i = 0; i < result.length; i++) {
-                    //var prenotaz-result[i];
-                    //prenotaz.postazione = 
-                        $('#' + prenotaz.NomePostazione).css({ fill: "#ff0000" });
+            //} else {
+            //    alert(result.message);
+            //}
 
-                }
+            ////$('#' + prenotaz.postazione).css({ fill: "#ff0000" });
+            $('rect[id^="Post"]').css({ fill: "#00B050" });
+
+            for (i = 0; i < result.length; i++) {
+                $('#' + result[i].nomePostazione).css({ fill: "#ff0000" });
+            }
 
 
 
-                //$("#selectComponenti").find('option').remove();
-                //for (i = 0; i < result.length; i++) {
-                //    $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
+            //$("#selectComponenti").find('option').remove();
+            //for (i = 0; i < result.length; i++) {
+            //    $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
         });
     }
 
