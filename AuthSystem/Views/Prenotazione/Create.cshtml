@@ -31,8 +31,9 @@
                 <label asp-for="Data" class="control-label"></label>
                 <input asp-for="Data" class="form-control" id="SelectData" />
                 <span asp-validation-for="Data" class="text-danger"></span>
+
                 <div class="form-group">
-                    <input type="button" value="Verifica disponibilità" class="btn btn-primary" onclick="GetDataPrenotazione()" />
+                    <input type="button" value="Verifica disponibilità" class="btn btn-primary" onclick="PrenotazioneByData()" />
                 </div>
             </div>
 
@@ -135,12 +136,24 @@
 
 <script>
     $(document).ready(function () {
-        GetDataPrenotazione();
+        //PrenotazioneByData();
 
         $("#SelectData").change(function () {
-            GetDataPrenotazione();
+            PrenotazioneByData();
         });
+    });
 
+        function PrenotazioneByData() {
+            var data = $("#SelectData").val();
+            $.ajax({
+                url: "api/PrenotazioneApi/GetDataPrenotazione/" + data
+            }).done(function (result) {
+                $('#Posto1').css({ fill: "#ff0000" });
+                //$("#selectComponenti").find('option').remove();
+                //for (i = 0; i < result.length; i++) {
+                //    $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
+        });
+    }
 
 
 </script>
