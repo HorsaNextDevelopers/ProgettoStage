@@ -141,6 +141,12 @@
         $("#SelectData").change(function () {
             PrenotazioneByData();
         });
+
+        $('rect[id^ = "Post"]').on("click", function () {
+            //chiama il post della prenotazione
+        });
+
+
     });
 
         function PrenotazioneByData() {
@@ -149,6 +155,24 @@
                 url: "api/PrenotazioneApi/GetDataPrenotazione/" + data
             }).done(function (result) {
                 $('#Posto1').css({ fill: "#ff0000" });
+
+                if (result.ok) {
+
+                } else {
+                    alert(result.message);
+                }
+
+                //$('#' + prenotaz.postazione).css({ fill: "#ff0000" });
+
+                for (i = 0; i < result.length; i++) {
+                    //var prenotaz-result[i];
+                    //prenotaz.postazione = 
+                        $('#' + prenotaz.NomePostazione).css({ fill: "#ff0000" });
+
+                }
+
+
+
                 //$("#selectComponenti").find('option').remove();
                 //for (i = 0; i < result.length; i++) {
                 //    $("#selectComponenti").append('<option value="' + result[i].idComponente + '">' + result[i].nomeComponente + '</option>');
