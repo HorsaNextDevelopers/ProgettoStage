@@ -123,58 +123,48 @@ namespace AuthSystem.Controllers.Api
             }).ToList());
         }
 
-        // PUT api/<LineeApiController>/5
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Prenotazione prenotazione)
+        // DELETE api/<LineeApiController>/5, 2020-11-09
+        [HttpDelete("{idPostazione}, {data}")]
+        public async Task<ActionResult<Prenotazione>> Delete(int idPostazione, DateTime data)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != prenotazione.IdPrenotazione)
-            {
-                return BadRequest();
-            }
-
-            _context.Update(prenotazione);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PrenotazioneExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return this.Ok(prenotazione);
-        }*/
-
-        // DELETE api/<LineeApiController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Prenotazione>> Delete(int id)
-        {
-            var prenotazione = await _context.Prenotazioni.
-                FirstOrDefaultAsync(m => m.IdPrenotazione == id);
 
             //&& m.IdAspNetUsers == this.User
+            //controllo utente 
+            var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var prenotazione = await _context.Prenotazioni.
+                FirstOrDefaultAsync(m => m.IdPostazione == idPostazione && m.Data == data && m.IdAspNetUsers == userid);
 
 
             if (prenotazione == null)
             {
-                return NotFound();
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "Non puoi cancellare la prenorazione di un altro utente"
+                });
             }
+
+            //controllo data
+            if (data < DateTime.Today)
+            {
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "Non puoi cancellare una prenotazione passata"
+                });
+            }
+
             _context.Prenotazioni.Remove(prenotazione);
             await _context.SaveChangesAsync();
 
             return this.Ok(prenotazione);
+
+            //return Ok(new ApiResult<Prenotazione>()
+            //{
+            //    Ok = false,
+            //    Message = "Prenotazione cancellata"
+            //});
         }
 
         private bool PrenotazioneExists(int id)
