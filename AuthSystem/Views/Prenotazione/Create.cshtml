@@ -160,7 +160,7 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
 
-        $('rect[id^="Post"]').bind("click", function () {
+        $('rect[id^="Post"]').on("click", function () {
             // chiama il post della prenotazione.
             window.postoSelezionato = $(this).attr('id');
             $('#confermaPrenotazioneModal').modal('show');
@@ -176,6 +176,7 @@
         });
        
     });
+
 
 
     function Prenota() {
@@ -227,8 +228,6 @@
     }
 
 
-
-   
 
     function Delete(idPostazione) {
        // var idPostazione = window.postoSelezionato;
