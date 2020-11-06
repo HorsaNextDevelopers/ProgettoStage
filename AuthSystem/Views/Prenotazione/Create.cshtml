@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-           
+
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -63,8 +63,13 @@
 
 
                     @*Posti da prenotare*@
-                    <g width="31" height="28" transform="scale(1,1) translate(131.44,94.14)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto1" width="31" height="28" /></g></g>
-                    <g width="31" height="28" transform="scale(1,1) translate(244.354,94.14)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="32.167" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto2" width="32.167" height="28" /></g></g>
+                    <g width="31" height="28" transform="scale(1,1) translate(131.44,94.14)">
+                        <g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1">
+                            <rect xmlns="http://www.w3.org/2000/svg" id="Posto1" width="31" height="28" data-toggle="tooltip"
+                                  data-placement="top" title="" />
+                        </g>
+                    </g>
+                    <g width="31" height="28" transform="scale(1,1) translate(244.354,94.14)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="32.167" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto2" width="32.167" height="28" data-toggle="tooltip" data-placement="top" title="" /></g></g>
                     <g width="31" height="28" transform="scale(1,1) translate(131.44,194.58)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto6" width="31" height="28" /></g></g>
                     <g width="31" height="28" transform="scale(1,1) translate(245.52,194.58)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto5" width="31" height="28" /></g></g>
                     <g width="31" height="28" transform="scale(1,1) translate(191.58,270.221)"><g stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-dasharray="none" width="31" height="28" transform="scale(1,1) translate(0,0)" fill="#fff " fill-opacity="1"><rect xmlns="http://www.w3.org/2000/svg" id="Posto8" width="31" height="28" /></g></g>
@@ -95,6 +100,31 @@
     </div>
 </div>
 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confermaPrenotazioneModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="confermaPrenotazioneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confermaPrenotazioneLabel">Confermi?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Confermi di voler prenotare questo posto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="Prenota();">Confermo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -103,39 +133,43 @@
 
 <script>
     $(document).ready(function () {
-        
+        window.postoSelezionato = '';
 
         $("#SelectData").change(function () {
             PrenotazioneByData();
         });
 
-    
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
 
         $('rect[id^="Post"]').on("click", function () {
             // chiama il post della prenotazione.
-            console.log($(this).attr('id'));
-            Prenota($(this).attr('id'));
-        });
+            window.postoSelezionato = $(this).attr('id');
+            $('#confermaPrenotazioneModal').modal('show');
 
+            //console.log($(this).attr('id'));
+            //Prenota($(this).attr('id'));
+        });
     });
 
 
-    function Prenota(nomePostazione) {
+    function Prenota() {
+        var nomePostazione = window.postoSelezionato;
         var data = $("#SelectData").val();
         $.ajax({
             type: 'post',
             url: "/api/PrenotazioneApi?data=" + data + "&nomePostazione=" + nomePostazione
         }).done(function (result) {
+            $('#confermaPrenotazioneModal').modal('hide');
             if (result.ok) {
                 PrenotazioneByData();
-                alert('Confermare prenotazione?');
-             
             } else {
                 alert(result.message);
             }
         });
     }
-     
+
 
     function PrenotazioneByData() {
         var data = $("#SelectData").val();
@@ -143,24 +177,26 @@
             url: "/api/PrenotazioneApi/GetDataPrenotazione/" + data
         }).done(function (result) {
             //$('#Posto1').css({ fill: "#ff0000" });
-           
+
             //if (result.ok) {
-               
+
 
             //} else {
             //    alert(result.message);
             //}
             $('rect[id^="Post"]').css({ fill: "#00B050" });
-         
+            $('rect[id^="Post"]').attr('data-original-title', '');
+
             for (i = 0; i < result.length; i++) {
-              
-                $('#' + result[i].nomePostazione).css({ fill: "#ff0000" });
-               
+                if (result[i].sonoIo) {
+                    $('#' + result[i].nomePostazione).css({ fill: "#0000ff" });
+                    //$('#' + result[i].nomePostazione).prop('title', 'questo posto è il mio!');
+                    $('#' + result[i].nomePostazione).attr('data-original-title', 'il mio posto');
+                } else {
+                    $('#' + result[i].nomePostazione).css({ fill: "#ff0000" });
+                    $('#' + result[i].nomePostazione).attr('data-original-title', result[i].nomeUtente);
+                }
             }
-            //if (sonoIo == userid) {
-            //    $('rect[id^="Post"]').css({ fill: "#0000ff" });
-            //}
-           
 
             ////$('#' + prenotaz.postazione).css({ fill: "#ff0000" });
 

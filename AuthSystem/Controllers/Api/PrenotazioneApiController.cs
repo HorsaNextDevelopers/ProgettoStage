@@ -109,17 +109,21 @@ namespace AuthSystem.Controllers.Api
         [Route("GetDataPrenotazione/{data}")]
         public IActionResult GetDataPrenotazione(DateTime data)
         {
-            var prenotazione = _context.Prenotazioni.Where(m => m.Data == data)
+            var prenotazioni = _context.Prenotazioni.Where(m => m.Data == data)
                 .Include(p => p.Postazioni)
+                .Include(p => p.AspNetUsers)
                 .ToList();
 
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return this.Ok(prenotazione.Select(p => new
+            return this.Ok(prenotazioni.Select(p => new
             {
                 p.Postazioni.NomePostazione,
                 p.Data,
-                sonoIo = p.IdAspNetUsers.Equals(userid)
+                sonoIo = p.IdAspNetUsers.Equals(userid),
+                nomeUtente = p.AspNetUsers.FirstName != null
+                    ? $"{p.AspNetUsers.FirstName} {p.AspNetUsers.LastName}"
+                    : p.AspNetUsers.Email
             }).ToList());
         }
 
@@ -129,7 +133,7 @@ namespace AuthSystem.Controllers.Api
         {
 
             //&& m.IdAspNetUsers == this.User
-            //controllo utente 
+            //controllo utente
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var prenotazione = await _context.Prenotazioni.
