@@ -128,16 +128,13 @@ namespace AuthSystem.Controllers.Api
         }
 
         // DELETE api/<LineeApiController>/5, 2020-11-09
-        [HttpDelete("{idPostazione}, {data}")]
-        public async Task<ActionResult<Prenotazione>> Delete(int idPostazione, DateTime data)
+        [HttpDelete("{nomePostazione}/{data}")]
+        public async Task<ActionResult<Prenotazione>> Delete(string nomePostazione, DateTime data)
         {
-
-            //&& m.IdAspNetUsers == this.User
-            //controllo utente
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var prenotazione = await _context.Prenotazioni.
-                FirstOrDefaultAsync(m => m.IdPostazione == idPostazione && m.Data == data && m.IdAspNetUsers == userid);
+                FirstOrDefaultAsync(m => m.Postazioni.NomePostazione == nomePostazione && m.Data == data && m.IdAspNetUsers == userid);
 
 
             if (prenotazione == null)
@@ -177,5 +174,3 @@ namespace AuthSystem.Controllers.Api
         }
     }
 }
-
-
