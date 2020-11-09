@@ -20,6 +20,7 @@ namespace AuthSystem.Controllers
             _context = context;
         }
 
+
         // GET: api/PrenotazioneApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Prenotazione>>> GetPrenotazioni()
