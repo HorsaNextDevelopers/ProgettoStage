@@ -4,14 +4,16 @@ using AuthSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20201102162648_Prova12")]
+    partial class Prova12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,13 +96,13 @@ namespace AuthSystem.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "325116c2-2d31-4213-93d2-05e07148abbe",
+                            ConcurrencyStamp = "0f145021-3b79-47c5-bd3e-ebf70e946bf9",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBsqMQ1jVBC3XKjEQ2hsU5jT2SFY+ZfwSEa6Qm4YKqfGRQAIJMchFVuQK3J+9RzdvA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPTOw17GMNzcdnt5mfigBRMTfNqZN7+yGDWXnLBfB7jxWUStqLREXDYRMhX918cmJg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -312,14 +314,14 @@ namespace AuthSystem.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "aa17a7bd-526a-416d-89dd-ca52840a59c4",
+                            ConcurrencyStamp = "2886b2ba-44f0-46c1-babf-d22127cd7dce",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "37c42e1d - 92e5 - 4216 - a308 - 2fa43d187bf1",
-                            ConcurrencyStamp = "ac22351c-0105-4963-a8ed-6443c599a31d",
+                            ConcurrencyStamp = "f43f18b0-0a9d-4aff-900f-bb0b48bf17f1",
                             Name = "Normal",
                             NormalizedName = "NORMAL"
                         });
