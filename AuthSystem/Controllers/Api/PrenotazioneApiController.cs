@@ -73,7 +73,7 @@ namespace AuthSystem.Controllers.Api
                 return Ok(new ApiResult<Prenotazione>()
                 {
                     Ok = false,
-                    Message = "qualcuno ti ha rubato il posto"
+                    Message = "Questo posto è stato già prenotato!"
                 });
             }
 
@@ -84,7 +84,7 @@ namespace AuthSystem.Controllers.Api
                 return Ok(new ApiResult<Prenotazione>()
                 {
                     Ok = false,
-                    Message = "Hai già preso un altro posto"
+                    Message = "Hai già effettuato un'altra prenotazione, non puoi effettuare più di una prenotazione nello stesso giorno!"
                 });
             }
 
@@ -142,7 +142,7 @@ namespace AuthSystem.Controllers.Api
                 return Ok(new ApiResult<Prenotazione>()
                 {
                     Ok = false,
-                    Message = "Non puoi cancellare la prenorazione di un altro utente"
+                    Message = "Non puoi cancellare la prenotazione di un altro utente!"
                 });
             }
 
@@ -152,7 +152,7 @@ namespace AuthSystem.Controllers.Api
                 return Ok(new ApiResult<Prenotazione>()
                 {
                     Ok = false,
-                    Message = "Non puoi cancellare una prenotazione passata"
+                    Message = "Non puoi cancellare una prenotazione passata!"
                 });
             }
 

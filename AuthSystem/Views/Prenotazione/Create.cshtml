@@ -203,8 +203,13 @@
             type: 'delete',
             url: "/api/PrenotazioneApi/" + nomePostazione + "/" + data
         }).done(function (result) {
-            PrenotazioneByData();
-            $('#EliminaPrenotazioneModal').modal('hide');
+            if (result.ok) {
+                PrenotazioneByData();
+                $('#EliminaPrenotazioneModal').modal('hide');
+            }
+            else {
+                alert(result.message);
+            }
         });
     }
 
