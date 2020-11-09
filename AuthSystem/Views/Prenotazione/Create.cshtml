@@ -202,12 +202,11 @@
         $.ajax({
             type: 'delete',
             url: "/api/PrenotazioneApi/" + nomePostazione + "/" + data
-        }).done(function (result) {
+        }).done(function (result) {        
+            $('#EliminaPrenotazioneModal').modal('hide');
             if (result.ok) {
-                PrenotazioneByData();
-                $('#EliminaPrenotazioneModal').modal('hide');
-            }
-            else {
+                PrenotazioneByData();                
+            } else {
                 alert(result.message);
             }
         });
@@ -222,7 +221,7 @@
             //$('#Posto1').css({ fill: "#ff0000" });
 
             $('rect[id^="Post"]').css({ fill: "#00B050" });
-            /*$('rect[id^="Post"]').attr('data-original-title', '')*/;
+            $('rect[id^="Post"]').attr('data-original-title', '');
 
             for (i = 0; i < result.length; i++) {
                 if (result[i].sonoIo) {

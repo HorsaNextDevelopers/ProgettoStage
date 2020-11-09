@@ -159,13 +159,11 @@ namespace AuthSystem.Controllers.Api
             _context.Prenotazioni.Remove(prenotazione);
             await _context.SaveChangesAsync();
 
-            return this.Ok(prenotazione);
-
-            //return Ok(new ApiResult<Prenotazione>()
-            //{
-            //    Ok = false,
-            //    Message = "Prenotazione cancellata"
-            //});
+            return Ok(new ApiResult<Prenotazione>()
+            {
+                Ok = true,
+                DataResult = prenotazione
+            });
         }
 
         private bool PrenotazioneExists(int id)
