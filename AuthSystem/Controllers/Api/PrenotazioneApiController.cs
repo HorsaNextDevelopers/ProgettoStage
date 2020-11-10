@@ -166,6 +166,38 @@ namespace AuthSystem.Controllers.Api
             });
         }
 
+        [HttpGet]
+        [Route("GetDataPrenotazione/{data}")]
+        public IActionResult GetDataPrenotazioneSuccessive(DateTime data, string nomePostazione)
+        {
+            var endDate = data.AddDays(10);
+
+            var prenotazioni = _context.Prenotazioni.Where(m => m.Data > data && m.Data <= endDate
+                                                                && m.Postazioni.NomePostazione.Equals(nomePostazione))
+                .Include(p => p.Postazioni)
+                .Include(p => p.AspNetUsers)
+                .ToList();
+            var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            while(data <= endDate)
+            {
+                //aggiungo la data e se il posto è libero
+                var occupato = prenotazioni.Any(p => p.Data == data);
+                data.AddDays(1);
+                if(occupato == true)
+                {
+                    return Ok(new ApiResult<Prenotazione>()
+                    {
+                        Ok = false,
+                        Message = "Il posto è occupato!"
+                    });
+                }
+            }
+            //[{data: "20201110", occupato: true} ...
+
+            return this.Ok();
+        }
+
         private bool PrenotazioneExists(int id)
         {
             return _context.Prenotazioni.Any(e => e.IdPrenotazione == id);
