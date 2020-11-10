@@ -4,14 +4,16 @@ using AuthSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthSystem.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20201103082957_prova12")]
+    partial class prova12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

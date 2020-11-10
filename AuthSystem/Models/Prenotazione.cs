@@ -1,11 +1,8 @@
 ﻿using AuthSystem.Areas.Identity.Data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuthSystem.Models
 {
@@ -18,7 +15,7 @@ namespace AuthSystem.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd\\-MM\\-yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Immettere la data aggiornata")]
-        [DisplayName("Data versamento")]
+        [DisplayName("Data della prenotazione")]
         public DateTime Data { get; set; }
 
         [MaxLength(450), ForeignKey("AspNetUsers"), DisplayName("Email")]
