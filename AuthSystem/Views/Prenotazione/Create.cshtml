@@ -115,7 +115,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" onclick="Prenota()">Confermo</button>
+                <button type="button" class="btn btn-primary" onclick="PrenotaMultipla()">Confermo</button>
             </div>
         </div>
     </div>
@@ -245,15 +245,41 @@
         $.ajax({
             url: "/api/PrenotazioneApi/GetDataPrenotazioneSuccessive/" + data + "/" + nomePostazione
         }).done(function (result) {
+            $('#PostoPerListaGiorni').empty();
             for (i = 0; i < result.dataResult.length; i++) {
                 if (result.dataResult[i].occupato) {
 
                 }
                 else {
-                    $('#PostoPerListaGiorni').append('<input type="checkbox" /> ' + result.dataResult[i].data + '<br />');
+                    var x = new Date(result.dataResult[i].data);
+                    $('#PostoPerListaGiorni').append('<input type="checkbox" class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="Posto1" /> ' + x.toLocaleDateString("it-IT") + '<br />');
                 }
             }
             $('#confermaPrenotazioneModal').modal('show');
+
+            $('input:checked')
         });
-     }
+    }
+
+    function PrenotaMultipla() {
+        $('.postoCheckBox:checkbox:checked').each(function () {
+            console.log($(this).attr('selDate'));
+            console.log($(this).attr('selPosto'));
+            var nomePostazione = $(this).attr('selPosto');
+            var data = $(this).attr('selDate');
+            $.ajax({
+                type: 'post',
+                url: "/api/PrenotazioneApi?data=" + data + "&nomePostazione=" + nomePostazione
+            }).done(function (result) {
+                $('#confermaPrenotazioneModal').modal('hide');
+                if (result.ok) {
+                    PrenotazioneByData();
+                } else {
+                    alert(result.message);
+                }
+
+            });
+        });
+
+    }
 </script>
