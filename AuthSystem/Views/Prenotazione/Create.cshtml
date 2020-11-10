@@ -110,6 +110,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <ul id = "PostoPerListaGiorni"></ul>
                 Confermi di voler prenotare questo posto?
             </div>
             <div class="modal-footer">
@@ -174,7 +175,8 @@
             //rgb(0,176,80)
             if ($(this).css('fill') === "rgb(0, 176, 80)") {
                 console.log('posto libero');
-                $('#confermaPrenotazioneModal').modal('show');
+                PrenotaPiuPosti();
+                
             }
         });
     });
@@ -237,5 +239,21 @@
         });
     }
 
+    function PrenotaPiuPosti() {
+        var nomePostazione = window.postoSelezionato;
+        var data = $("#SelectData").val();
+        $.ajax({
+            url: "/api/PrenotazioneApi/GetDataPrenotazioneSuccessive/" + data + "/" + nomePostazione
+        }).done(function (result) {
+            for (i = 0; i < result.dataResult.length; i++) {
+                if (result.dataResult[i].occupato) {
 
+                }
+                else {
+                    $('#PostoPerListaGiorni').append('<input type="checkbox" /> ' + result.dataResult[i].data + '<br />');
+                }
+            }
+            $('#confermaPrenotazioneModal').modal('show');
+        });
+     }
 </script>

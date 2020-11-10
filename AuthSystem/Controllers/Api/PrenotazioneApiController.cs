@@ -167,37 +167,39 @@ namespace AuthSystem.Controllers.Api
         }
 
         [HttpGet]
-        [Route("GetDataPrenotazioneSuccessive/{data}")]
+        [Route("GetDataPrenotazioneSuccessive/{data}/{nomePostazione}")]
         public IActionResult GetDataPrenotazioneSuccessive(DateTime data, string nomePostazione)
         {
             var endDate = data.AddDays(10);
 
-            var prenotazioni = _context.Prenotazioni.Where(m => m.Data > data && m.Data <= endDate && m.Postazioni.NomePostazione.Equals(nomePostazione))
+            var prenotazioni = _context.Prenotazioni.Where(m => m.Data >= data && m.Data <= endDate && m.Postazioni.NomePostazione.Equals(nomePostazione))
                 .Include(p => p.Postazioni)
                 .Include(p => p.AspNetUsers)
                 .ToList();
 
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var apiModel = new List<RangePrenotazioniApiModel>();
+
             while (data <= endDate)
             {
                 //aggiungo la data e se il posto è libero
                 var occupato = prenotazioni.Any(p => p.Data == data);
-
-                if (occupato)
+                apiModel.Add(new RangePrenotazioniApiModel
                 {
-                    return Ok(new ApiResult<Prenotazione>()
-                    {
-                        Ok = false,
-                        Message = "Questo posto in questa data è occupato!"
-                    });
-                }
+                    Data = data,
+                    Occupato = occupato
+                }) ;
                 data = data.AddDays(1);
 
             }
             // [{ data: "20201110", occupato: true}...
 
-            return this.Ok(prenotazioni);
+            return Ok(new ApiResult < List <RangePrenotazioniApiModel>>()
+            {
+                Ok = true,
+                DataResult = apiModel
+            });
         }
         
     }
