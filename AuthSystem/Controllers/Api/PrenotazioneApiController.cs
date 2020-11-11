@@ -88,6 +88,15 @@ namespace AuthSystem.Controllers.Api
                 });
             }
 
+            if (data.DayOfWeek == DayOfWeek.Sunday || data.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return Ok(new ApiResult<Prenotazione>()
+                {
+                    Ok = false,
+                    Message = "L'ufficio e' chiuso nel weekend"
+                });
+            }
+
             var prenotazione = new Prenotazione
             {
                 IdAspNetUsers = userid,
@@ -156,6 +165,7 @@ namespace AuthSystem.Controllers.Api
                 });
             }
 
+
             _context.Prenotazioni.Remove(prenotazione);
             await _context.SaveChangesAsync();
 
@@ -170,6 +180,7 @@ namespace AuthSystem.Controllers.Api
         [Route("GetDataPrenotazioneSuccessive/{data}/{nomePostazione}")]
         public IActionResult GetDataPrenotazioneSuccessive(DateTime data, string nomePostazione)
         {
+            bool giornoDellaSettimana = false;
             var endDate = data.AddDays(10);
 
             var prenotazioni = _context.Prenotazioni.Where(m => m.Data >= data && m.Data <= endDate && m.Postazioni.NomePostazione.Equals(nomePostazione))
@@ -183,15 +194,26 @@ namespace AuthSystem.Controllers.Api
 
             while (data <= endDate)
             {
-                //aggiungo la data e se il posto è libero
-                var occupato = prenotazioni.Any(p => p.Data == data);
-                apiModel.Add(new RangePrenotazioniApiModel
+                if (data.DayOfWeek == DayOfWeek.Sunday || data.DayOfWeek == DayOfWeek.Saturday)
                 {
-                    Data = data,
-                    NomePostazione = nomePostazione,
-                    Occupato = occupato
-                }) ;
+                    giornoDellaSettimana = true;
+                }
+
+                if(!giornoDellaSettimana)
+                {
+                    //aggiungo la data e se il posto è libero
+                    var occupato = prenotazioni.Any(p => p.Data == data);
+                    apiModel.Add(new RangePrenotazioniApiModel
+                    {
+                        Data = data,
+                        NomePostazione = nomePostazione,
+                        Occupato = occupato
+                    });
+                   
+                }
+
                 data = data.AddDays(1);
+                giornoDellaSettimana = false;
 
             }
             // [{ data: "20201110", occupato: true}...
