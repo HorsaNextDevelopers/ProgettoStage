@@ -8,6 +8,7 @@ namespace AuthSystem.ApiModel
     public class RangePrenotazioniApiModel
     {
         public DateTime Data { get; set; }
+        public string NomePostazione { get; set; }
         public bool Occupato { get; set; }
     }
 }

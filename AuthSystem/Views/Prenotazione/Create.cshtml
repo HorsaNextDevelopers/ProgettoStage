@@ -247,12 +247,14 @@
         }).done(function (result) {
             $('#PostoPerListaGiorni').empty();
             for (i = 0; i < result.dataResult.length; i++) {
+              
                 if (result.dataResult[i].occupato) {
-
+                    var x = new Date(result.dataResult[i].data);    
+                    $('#PostoPerListaGiorni').append('<label type="text" class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="' + result.dataResult[i].nomePostazione + '"  /> ' + x.toLocaleDateString("it-IT") + ' OCCUPATO <br />');
                 }
                 else {
                     var x = new Date(result.dataResult[i].data);
-                    $('#PostoPerListaGiorni').append('<input type="checkbox" class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="Posto1" /> ' + x.toLocaleDateString("it-IT") + '<br />');
+                    $('#PostoPerListaGiorni').append('<input type="checkbox"  class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="' + result.dataResult[i].nomePostazione + '"  /> ' + x.toLocaleDateString("it-IT") + '<br/>');
                 }
             }
             $('#confermaPrenotazioneModal').modal('show');
