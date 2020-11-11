@@ -256,6 +256,7 @@
                     $('#PostoPerListaGiorni').append('<input type="checkbox"  class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="' + result.dataResult[i].nomePostazione + '"  /> ' + x.toLocaleDateString("it-IT") + '<br/>');
                 }
             }
+
             $('#confermaPrenotazioneModal').modal('show');
 
             $('input:checked')
