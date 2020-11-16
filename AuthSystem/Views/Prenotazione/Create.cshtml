@@ -110,11 +110,12 @@
                 </button>
             </div>
             <div class="modal-body">
+                <ul id="PostoPerListaGiorni"></ul>
                 Confermi di voler prenotare questo posto?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" onclick="Prenota()">Confermo</button>
+                <button type="button" class="btn btn-primary" onclick="PrenotaMultipla()">Confermo</button>
             </div>
         </div>
     </div>
@@ -146,6 +147,23 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xxjapp/xdialog@3/xdialog.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xxjapp/xdialog@3/xdialog.min.js"></script>
+
+<style>
+    .xd-content .xd-body .xd-body-inner {
+        max-height: unset;
+    }
+
+    .xd-content .xd-body p {
+        color: none;
+       /* text-shadow: 0 0 5px rgba(0, 0, 0, 0.75);*/
+    }
+
+    .xd-content .xd-button.xd-ok {
+        background: #4e549c;
+    }
+</style>
 
 <script>
     $(document).ready(function () {
@@ -174,7 +192,8 @@
             //rgb(0,176,80)
             if ($(this).css('fill') === "rgb(0, 176, 80)") {
                 console.log('posto libero');
-                $('#confermaPrenotazioneModal').modal('show');
+                PrenotaPiuPosti();
+
             }
         });
     });
@@ -191,7 +210,7 @@
             if (result.ok) {
                 PrenotazioneByData();
             } else {
-                alert(result.message);
+                xdialog.alert(result.message);
             }
         });
     }
@@ -202,12 +221,12 @@
         $.ajax({
             type: 'delete',
             url: "/api/PrenotazioneApi/" + nomePostazione + "/" + data
-        }).done(function (result) {        
+        }).done(function (result) {
             $('#EliminaPrenotazioneModal').modal('hide');
             if (result.ok) {
-                PrenotazioneByData();                
+                PrenotazioneByData();
             } else {
-                alert(result.message);
+                xdialog.alert(result.message);
             }
         });
     }
@@ -237,5 +256,50 @@
         });
     }
 
+    function PrenotaPiuPosti() {
+        var nomePostazione = window.postoSelezionato;
+        var data = $("#SelectData").val();
+        $.ajax({
+            url: "/api/PrenotazioneApi/GetDataPrenotazioneSuccessive/" + data + "/" + nomePostazione
+        }).done(function (result) {
+            $('#PostoPerListaGiorni').empty();
+            for (i = 0; i < result.dataResult.length; i++) {
+                if (result.dataResult[i].occupato) {
+                    var x = new Date(result.dataResult[i].data);
+                    $('#PostoPerListaGiorni').append('<type="text" class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="' + result.dataResult[i].nomePostazione + '"  /> ' + x.toLocaleDateString("it-IT") + ' OCCUPATO <br/>');
+                }
+                else {
+                    var x = new Date(result.dataResult[i].data);
+                    $('#PostoPerListaGiorni').append('<input type="checkbox"  class="postoCheckBox" selDate= "' + result.dataResult[i].data + '" selPosto="' + result.dataResult[i].nomePostazione + '"  /> ' + x.toLocaleDateString("it-IT") + '<br/>');
+                }
+            }
 
+            $('#confermaPrenotazioneModal').modal('show');
+
+            $('input:checked')
+
+        });
+    }
+
+    function PrenotaMultipla() {
+        $('.postoCheckBox:checkbox:checked').each(function () {
+            console.log($(this).attr('selDate'));
+            console.log($(this).attr('selPosto'));
+            var nomePostazione = $(this).attr('selPosto');
+            var data = $(this).attr('selDate');
+            $.ajax({
+                type: 'post',
+                url: "/api/PrenotazioneApi?data=" + data + "&nomePostazione=" + nomePostazione
+            }).done(function (result) {
+                $('#confermaPrenotazioneModal').modal('hide');
+                if (result.ok) {
+                    PrenotazioneByData();
+                } else {
+                    xdialog.alert(result.message);
+                }
+
+            });
+        });
+
+    }
 </script>
